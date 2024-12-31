@@ -14,7 +14,7 @@ stages:
   - job: Build
     displayName: Build Infrastructure
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: agentPool
     steps:
     - task: Bash@3
       displayName: 'Install: Postman  & Newman'
@@ -152,7 +152,7 @@ stages:
   - deployment: DeployFakeRestAPI
     displayName: 'Deploy FakeRestAPI to  VM'
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: agentPool
     environment: 'test'
     strategy:
       runOnce:
@@ -174,7 +174,7 @@ stages:
   - job: Integration
     displayName: 'Integration Tests Suite'
     pool:
-      vmImage: ubuntu-20.04
+      vmImage: agentPool
     steps:
 
     - task: Bash@3
@@ -234,7 +234,7 @@ stages:
   - job: Performance
     displayName: 'Performance Tests Suite'
     pool:
-      vmImage: 'ubuntu-20.04'
+      vmImage: 'agentPool'
     steps:
 
     #--------------------------------------------#    
