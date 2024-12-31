@@ -24,17 +24,28 @@ stages:
           sudo snap install postman
           sudo npm install -g newman
 
-    - task: InstallSSHKey@0
-      inputs:
-        knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
-        sshPublicKey: '$(udacityPubKey)'
-        sshKeySecureFile: 'id_rsa'
-
+    # Step 1: Download the private key (id_rsa)
     - task: DownloadSecureFile@1
-      name: udacity_public_key
+      name: private_key
+      displayName: 'Download Private Key'
+      inputs:
+        secureFile: 'id_rsa'
+
+    # Step 2: Download the public key (id_rsa.pub)
+    - task: DownloadSecureFile@1
+      name: public_key
       displayName: 'Download Public Key'
       inputs:
         secureFile: 'id_rsa.pub'
+
+    # Step 3: Install the SSH key using the downloaded private key
+    - task: InstallSSHKey@0
+      displayName: 'Install SSH Key'
+      inputs:
+        sshKeySecureFile: 'id_rsa'
+        sshPublicKey: '$(udacityPubKey)'
+        knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
+
         
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
