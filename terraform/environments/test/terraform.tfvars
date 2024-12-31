@@ -5,7 +5,7 @@
 # tenant_id = ""
 
 # Resource Group/Location
-location = "West Europe"
+location = "South Central US"
 resource_group_name = "Azuredevops"
 application_type = "Azuredevops-app"
 
@@ -17,7 +17,7 @@ address_prefix_test = "10.5.1.0/24"
 # VM
 admin_username = "chaulnh"
 number_of_vms = 2
-packer_image = "/subscriptions/c79adf2b-9d2a-4e3e-95e8-ef51f2624216/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
+packer_image = "/subscriptions/481b1dfa-09f6-4305-a978-b656e03d8e84/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
 
 # Azure pipelines
 #public_key_path = "id_rsa.pub"

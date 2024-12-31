@@ -1,6 +1,6 @@
 name: Azure Pipelines
 variables:
-  azureServiceConnectionId: '56c6ad79-ac49-4a86-bcb0-f917400c55cf'
+  azureServiceConnectionId: 'c7921927-719b-4303-8b1d-8b20a215c2d5'
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
   webAppName: 'Azuredevops-app-AppService'
@@ -59,10 +59,10 @@ stages:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
         backendServiceArm: 'azServiceConnection'
-        backendAzureRmResourceGroupName: 'tfstate'
-        backendAzureRmStorageAccountName: 'tfstate315883505'
+        backendAzureRmResourceGroupName: 'Azuredevops'
+        backendAzureRmStorageAccountName: 'tfstate1001131001'
         backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'terraform-project3.tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: Terraform Validate
