@@ -4,7 +4,7 @@ variables:
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
   webAppName: 'Azuredevops-app-AppService'
-  projectRoot: $(System.DefaultWorkingDirectory)
+  projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: 'test'
 
 stages:
@@ -14,37 +14,34 @@ stages:
   - job: Build
     displayName: Build Infrastructure
     pool:
-      vmImage: agentPool
+      name: agentPool  # Corrected to use custom agent pool
     steps:
     - task: Bash@3
-      displayName: 'Install: Postman  & Newman'
+      displayName: 'Install: Postman & Newman'
       inputs:
         targetType: inline
         script: |
           sudo snap install postman
           sudo npm install -g newman
 
-    # Step 1: Download the private key (id_rsa)
     - task: DownloadSecureFile@1
       name: private_key
       displayName: 'Download Private Key'
       inputs:
         secureFile: 'id_rsa'
 
-    # Step 2: Download the public key (id_rsa.pub)
     - task: DownloadSecureFile@1
       name: public_key
       displayName: 'Download Public Key'
       inputs:
         secureFile: 'id_rsa.pub'
 
-    # Step 3: Install the SSH key using the downloaded private key
     - task: InstallSSHKey@0
       displayName: 'Install SSH Key'
       inputs:
         sshKeySecureFile: 'id_rsa'
         sshPublicKey: '$(udacityPubKey)'
-        knownHostsEntry: '40.124.106.219 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8x46iXW4F+QbhbB+VO2X4g1FCnSdzsJwdJZzLGB0YA'
+        knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
@@ -64,13 +61,13 @@ stages:
         backendAzureRmKey: 'test.terraform.tfstate'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-      displayName: Terraform Validate
+      displayName: 'Terraform Validate'
       inputs:
         provider: 'azurerm'
         command: 'validate'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-      displayName: Terraform Apply
+      displayName: 'Terraform Apply'
       inputs:
         provider: 'azurerm'
         command: 'apply'
@@ -150,9 +147,9 @@ stages:
   displayName: Deploy Stage
   jobs:
   - deployment: DeployFakeRestAPI
-    displayName: 'Deploy FakeRestAPI to  VM'
+    displayName: 'Deploy FakeRestAPI to VM'
     pool:
-      vmImage: agentPool
+      name: agentPool  # Custom agent pool
     environment: 'test'
     strategy:
       runOnce:
@@ -166,24 +163,19 @@ stages:
                 appType: webApp
                 package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
 
-
 - stage: Tests
   displayName: Test Stage
   jobs:
-
   - job: Integration
     displayName: 'Integration Tests Suite'
     pool:
-      vmImage: agentPool
+      name: agentPool
     steps:
-
     - task: Bash@3
       displayName: 'Install: Postman & Newman'
       inputs:
         targetType: 'inline'
         script: |
-          #! /bin/bash
-          pwd
           sudo snap install postman
           sudo npm install -g newman
           sudo npm install newman-reporter-junitfull -g      
@@ -234,7 +226,7 @@ stages:
   - job: Performance
     displayName: 'Performance Tests Suite'
     pool:
-      vmImage: 'agentPool'
+      name: 'agentPool'
     steps:
 
     #--------------------------------------------#    
