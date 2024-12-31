@@ -1,21 +1,10 @@
 name: Azure Pipelines
 variables:
-  # Azure Resource Manager service connection for pipelines
   azureServiceConnectionId: '56c6ad79-ac49-4a86-bcb0-f917400c55cf'
-
-  # Python version: 3.9.12
   python.version: '3.9.12'
-
-  # Agent VM image name
   vmImageName: 'myPackerImage'
-
-  # Web app name
   webAppName: 'Azuredevops-app-AppService'
-
-  # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
-
-  # Environment name
   environmentName: 'test'
 
 stages:
@@ -27,21 +16,18 @@ stages:
     pool:
       vmImage: ubuntu-20.04
     steps:
-
     - task: Bash@3
       displayName: 'Install: Postman & Newman'
       inputs:
-
         targetType: inline
         script: |
           sudo snap install postman
           sudo npm install -g newman
 
-      # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
         knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
-        sshPublicKey: '$(udacityPubKey)' # Define on Azure pipeline
+        sshPublicKey: '$(udacityPubKey)'
         sshKeySecureFile: 'id_rsa'
 
     - task: DownloadSecureFile@1
@@ -56,7 +42,7 @@ stages:
         terraformVersion: '1.2.9'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-      displayName: 'Terrafom init'
+      displayName: 'Terraform Init'
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -68,13 +54,13 @@ stages:
         backendAzureRmKey: 'terraform-project3.tfstate'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-      displayName: Terraform validate
+      displayName: Terraform Validate
       inputs:
         provider: 'azurerm'
         command: 'validate'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-      displayName: Terraform apply
+      displayName: Terraform Apply
       inputs:
         provider: 'azurerm'
         command: 'apply'
