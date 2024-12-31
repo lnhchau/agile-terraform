@@ -140,7 +140,7 @@ stages:
   displayName: Deploy Stage
   jobs:
   - deployment: DeployFakeRestAPI
-    displayName: 'Deploy FakeRestAPI to VM'
+    displayName: 'Deploy FakeRestAPI to  VM'
     pool:
       vmImage: ubuntu-20.04
     environment: 'test'
