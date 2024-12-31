@@ -44,9 +44,8 @@ stages:
       inputs:
         sshKeySecureFile: 'id_rsa'
         sshPublicKey: '$(udacityPubKey)'
-        knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
+        knownHostsEntry: '40.124.106.219 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8x46iXW4F+QbhbB+VO2X4g1FCnSdzsJwdJZzLGB0YA'
 
-        
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
       inputs:
