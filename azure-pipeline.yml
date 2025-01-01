@@ -86,12 +86,21 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
+          # Download Terraform
           curl -O https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
-          sudo apt install unzip
+
+          # Unzip the downloaded file
           unzip terraform_1.2.9_linux_amd64.zip
+
+          # Move the Terraform binary to /usr/local/bin
           sudo mv terraform /usr/local/bin/
+
+          # Make sure Terraform is executable
+          sudo chmod +x /usr/local/bin/terraform
+
+          # Verify the installation
           terraform --version
-          
+
     - task: Bash@3
       displayName: 'Debug Working Directory and Terraform'
       inputs:
