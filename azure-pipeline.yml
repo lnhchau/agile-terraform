@@ -91,6 +91,15 @@ stages:
           unzip terraform_1.2.9_linux_amd64.zip
           sudo mv terraform /usr/local/bin/
           terraform --version
+          
+    - task: Bash@3
+      displayName: 'Debug Working Directory and Terraform'
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo "Current Directory: $(pwd)"
+          ls -la
+          terraform -version
 
     # Step 2: Terraform Init
     - task: Bash@3
