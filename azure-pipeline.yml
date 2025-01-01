@@ -16,16 +16,24 @@ stages:
     pool:
       name: agentPool  # Corrected to use custom agent pool
     steps:
-    - task: Bash@3
-      displayName: 'Install: Postman & Newman'
-      inputs:
-        targetType: inline
-        script: |
-          #! /bin/bash
-          pwd
-          sudo snap install postman
-          sudo npm install -g newman
-          sudo npm install newman-reporter-junitfull -g    
+  - task: Bash@3
+    displayName: 'Install: Node.js and npm'
+    inputs:
+      targetType: 'inline'
+      script: |
+        sudo apt update
+        sudo apt install -y nodejs
+        sudo apt install -y npm
+        node -v   # Check Node.js version
+        npm -v    # Check npm version
+
+  - task: Bash@3
+    displayName: 'Install: Postman & Newman'
+    inputs:
+      targetType: 'inline'
+      script: |
+        sudo snap install postman
+        sudo npm install -g newman
 
     - task: InstallSSHKey@0
       displayName: 'Install SSH Key'
