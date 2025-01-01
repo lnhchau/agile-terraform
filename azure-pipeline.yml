@@ -43,37 +43,76 @@ stages:
         sshPublicKey: '$(udacityPubKey)'
         knownHostsEntry: '20.84.113.82 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxVqkvDHJ5oRNaAJWAmjXaNcDEmIZrtneIIk4qjdajA'
 
-    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+    #   displayName: 'Install Terraform'
+    #   inputs:
+    #     terraformVersion: '1.2.9'
+
+    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    #   displayName: 'Terraform Init'
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'init'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+    #     backendServiceArm: 'azServiceConnection'
+    #     backendAzureRmResourceGroupName: 'Azuredevops'
+    #     backendAzureRmStorageAccountName: 'tfstate1605014538'
+    #     backendAzureRmContainerName: 'tfstate'
+    #     backendAzureRmKey: 'test.terraform.tfstate'
+
+    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    #   displayName: 'Terraform Validate'
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'validate'
+
+    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    #   displayName: 'Terraform Apply'
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'apply'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+    #     commandOptions: '-var "public_key_path=$(udacity_public_key.secureFilePath)"'
+    #     environmentServiceNameAzureRM: 'azServiceConnection'
+
+    # Step 1: Install Terraform
+    - task: Bash@3
       displayName: 'Install Terraform'
       inputs:
-        terraformVersion: '1.2.9'
+        targetType: 'inline'
+        script: |
+          curl -O https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
+          unzip terraform_1.2.9_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
 
-    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    # Step 2: Terraform Init
+    - task: Bash@3
       displayName: 'Terraform Init'
       inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-        backendServiceArm: 'azServiceConnection'
-        backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate1605014538'
-        backendAzureRmContainerName: 'tfstate'
-        backendAzureRmKey: 'test.terraform.tfstate'
+        targetType: 'inline'
+        script: |
+          terraform init \
+            -backend-config="storage_account_name=tfstate1605014538" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=test.terraform.tfstate" \
+            -backend-config="resource_group_name=Azuredevops"
 
-    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    # Step 3: Terraform Validate
+    - task: Bash@3
       displayName: 'Terraform Validate'
       inputs:
-        provider: 'azurerm'
-        command: 'validate'
+        targetType: 'inline'
+        script: |
+          terraform validate
 
-    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+    # Step 4: Terraform Apply
+    - task: Bash@3
       displayName: 'Terraform Apply'
       inputs:
-        provider: 'azurerm'
-        command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-        commandOptions: '-var "public_key_path=$(udacity_public_key.secureFilePath)"'
-        environmentServiceNameAzureRM: 'azServiceConnection'
+        targetType: 'inline'
+        script: |
+          terraform apply -auto-approve -var="public_key_path=$(udacity_public_key.secureFilePath)"
         
     # # Postman Regression Test Suite    
     # # ToDo: Verify the working directory
