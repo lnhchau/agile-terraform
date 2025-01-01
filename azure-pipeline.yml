@@ -21,8 +21,11 @@ stages:
       inputs:
         targetType: inline
         script: |
+          #! /bin/bash
+          pwd
           sudo snap install postman
           sudo npm install -g newman
+          sudo npm install newman-reporter-junitfull -g    
 
     - task: InstallSSHKey@0
       displayName: 'Install SSH Key'
