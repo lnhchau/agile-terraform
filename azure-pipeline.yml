@@ -1,6 +1,6 @@
 name: Azure Pipelines
 variables:
-  azureServiceConnectionId: 'c7921927-719b-4303-8b1d-8b20a215c2d5'
+  azureServiceConnectionId: '80cffd51-bec3-4d34-a419-1d6d65e40e97'
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
   webAppName: 'Azuredevops-app-AppService'
@@ -41,7 +41,7 @@ stages:
       inputs:
         sshKeySecureFile: 'id_rsa'
         sshPublicKey: '$(udacityPubKey)'
-        knownHostsEntry: '52.170.208.68 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFfa5uGyWkcWFmGvn6iO0WZFX57CP1W6eFdDjb9JryY'
+        knownHostsEntry: '20.84.113.82 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxVqkvDHJ5oRNaAJWAmjXaNcDEmIZrtneIIk4qjdajA'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
@@ -56,7 +56,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
         backendServiceArm: 'azServiceConnection'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate1001131001'
+        backendAzureRmStorageAccountName: 'tfstate1605014538'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
