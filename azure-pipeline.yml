@@ -24,24 +24,18 @@ stages:
           sudo snap install postman
           sudo npm install -g newman
 
-    - task: DownloadSecureFile@1
-      name: private_key
-      displayName: 'Download Private Key'
+    - task: InstallSSHKey@0
+      displayName: 'Install SSH Key'
       inputs:
-        secureFile: 'id_rsa'
+        sshKeySecureFile: 'id_rsa'
+        sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXydusyCTYelW2wo6z3tVH9SLasuwn4CnWT8ABB+i8oO40BxboP6o0wIT6I0b0jIAGhIc7dPKbKgnuAMaqzDbRmk1UckBqRVdrF0dXdRMvAv3Er8kSzw+Zey3le39WkNvgdg2iexWciyR2ZsC9evn+tY1jHiW0JjCfWCIss4nDpEmqAWXO1Lr3XDDbagJcuTMqMnakPF6BLsZigDOIEaQv4SiHdymAi53m2kzuE+YjJLqaGtUkDHhiQ/7GfNygudYa0xQfWs4/sI5nTR6L1Nsn+OyGHwrW7F9IuwFwCxjD+ljGcpjEYMVMBeWPYt89a9Y+Md/90hmteaOqpmEm0LIUl5o/zLdsWm89dVG3kxoAh0BPVoIfn4e+jZnEt2K6ukC3kaHjgArL/1twHHd54WjrriYu6b/8GlBTz5e+AZxd7VYc9NthzH1W9EJf2GOEtf40SY6WttFgfazQtHLyZx6qqEz+eNcyvzS2EtYcZVL2EVuFmYzxfTsuPzXjyjDTJVR9XLvaQojNzP+ukX2eE48x5rKtxVRhDN4xhqfgceJoNbfGPAziD66328fZfio2xirIGoevs6QRewQJA8JDG5H/CNZZxucxlgmT6xUjegiNlkTf8YbjbE9wHMs5cWTnN+ZRDpuPfKkI0BK4m0iiUO61O91g82O2yVPHW8F00Fz35w== odl_user_271109@udacityhol.onmicrosoft.com'
+        knownHostsEntry: '20.84.113.82 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxVqkvDHJ5oRNaAJWAmjXaNcDEmIZrtneIIk4qjdajA'
 
     - task: DownloadSecureFile@1
       name: public_key
       displayName: 'Download Public Key'
       inputs:
         secureFile: 'id_rsa.pub'
-
-    - task: InstallSSHKey@0
-      displayName: 'Install SSH Key'
-      inputs:
-        sshKeySecureFile: 'id_rsa'
-        sshPublicKey: '$(udacityPubKey)'
-        knownHostsEntry: '20.84.113.82 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxVqkvDHJ5oRNaAJWAmjXaNcDEmIZrtneIIk4qjdajA'
 
     # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
     #   displayName: 'Install Terraform'
