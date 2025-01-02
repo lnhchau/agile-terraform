@@ -8,6 +8,7 @@ variables:
   webAppName: 'myapp-AppService'
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: 'test'
+  - group: Udacity
 
 stages:
 - stage: Build
@@ -317,7 +318,8 @@ stages:
 
   - deployment: Functional
     displayName: 'Functional UI Tests Suite'
-    environment: test
+    environment: 
+      name: test
       resourceType: VirtualMachine
       tags: test, packer-created-vm
     strategy:
