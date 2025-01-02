@@ -81,7 +81,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: '$(resourceGroupName)'
         backendAzureRmStorageAccountName: '$(storagetAccountName)'
@@ -101,7 +101,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         # commandOptions: '-var "public_key_path=$(udacity_public_key.secureFilePath)"'
         environmentServiceNameAzureRM: 'azServiceConnection'
 
