@@ -1,6 +1,6 @@
 name: Azure Pipelines
 variables:
-  azureServiceConnectionId: '80cffd51-bec3-4d34-a419-1d6d65e40e97'
+  azureServiceConnectionId: '352fc713-b111-4214-b984-1e0aacaf8872'
   storagetAccountName: 'tfstate357223227'
   resourceGroupName: 'Azuredevops'
   python.version: '3.9.12'
