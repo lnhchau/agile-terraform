@@ -52,3 +52,8 @@ variable "public_key_path" {
   description = "Full path including the filename of the public key."
   type        = string
 }
+
+variable "arm_access_key" {
+  description = "Access key for Azure storage account backend"
+  type        = string
+}
