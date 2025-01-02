@@ -1,6 +1,8 @@
 name: Azure Pipelines
 variables:
   azureServiceConnectionId: '80cffd51-bec3-4d34-a419-1d6d65e40e97'
+  storagetAccountName: 'tfstate357223227'
+  resourceGroupName: 'Azuredevops'
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
   webAppName: 'myapp-AppService'
@@ -38,8 +40,8 @@ stages:
       displayName: 'Install SSH Key'
       inputs:
         sshKeySecureFile: 'id_rsa'
-        sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXydusyCTYelW2wo6z3tVH9SLasuwn4CnWT8ABB+i8oO40BxboP6o0wIT6I0b0jIAGhIc7dPKbKgnuAMaqzDbRmk1UckBqRVdrF0dXdRMvAv3Er8kSzw+Zey3le39WkNvgdg2iexWciyR2ZsC9evn+tY1jHiW0JjCfWCIss4nDpEmqAWXO1Lr3XDDbagJcuTMqMnakPF6BLsZigDOIEaQv4SiHdymAi53m2kzuE+YjJLqaGtUkDHhiQ/7GfNygudYa0xQfWs4/sI5nTR6L1Nsn+OyGHwrW7F9IuwFwCxjD+ljGcpjEYMVMBeWPYt89a9Y+Md/90hmteaOqpmEm0LIUl5o/zLdsWm89dVG3kxoAh0BPVoIfn4e+jZnEt2K6ukC3kaHjgArL/1twHHd54WjrriYu6b/8GlBTz5e+AZxd7VYc9NthzH1W9EJf2GOEtf40SY6WttFgfazQtHLyZx6qqEz+eNcyvzS2EtYcZVL2EVuFmYzxfTsuPzXjyjDTJVR9XLvaQojNzP+ukX2eE48x5rKtxVRhDN4xhqfgceJoNbfGPAziD66328fZfio2xirIGoevs6QRewQJA8JDG5H/CNZZxucxlgmT6xUjegiNlkTf8YbjbE9wHMs5cWTnN+ZRDpuPfKkI0BK4m0iiUO61O91g82O2yVPHW8F00Fz35w== odl_user_271109@udacityhol.onmicrosoft.com'
-        knownHostsEntry: '20.84.113.82 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxVqkvDHJ5oRNaAJWAmjXaNcDEmIZrtneIIk4qjdajA'
+        sshPublicKey: '$(udacityPubKey)'
+        knownHostsEntry: 'AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI5h2HIc9VOyWFwF/mfH3mul/1DW5rSr6mBK4jHnsFwvkv75Dcx57tEl1z8J/J3FpS2djQIiFZFFGRUZodqsAFI='
 
     - task: DownloadSecureFile@1
       name: public_key
@@ -47,58 +49,10 @@ stages:
       inputs:
         secureFile: 'id_rsa.pub'
 
-    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
-    #   displayName: 'Install Terraform'
-    #   inputs:
-    #     terraformVersion: '1.2.9'
-
-    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-    #   displayName: 'Terraform Init'
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'init'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-    #     backendServiceArm: 'azServiceConnection'
-    #     backendAzureRmResourceGroupName: 'Azuredevops'
-    #     backendAzureRmStorageAccountName: 'tfstate357223227'
-    #     backendAzureRmContainerName: 'tfstate'
-    #     backendAzureRmKey: 'test.terraform.tfstate'
-
-    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-    #   displayName: 'Terraform Validate'
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'validate'
-
-    # - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
-    #   displayName: 'Terraform Apply'
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'apply'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
-    #     commandOptions: '-var "public_key_path=$(udacity_public_key.secureFilePath)"'
-    #     environmentServiceNameAzureRM: 'azServiceConnection'
-
-    # Step 1: Install Terraform
-    - task: Bash@3
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
       inputs:
-        targetType: 'inline'
-        script: |
-          # Download Terraform
-          curl -O https://releases.hashicorp.com/terraform/1.2.9/terraform_1.2.9_linux_amd64.zip
-
-          # Unzip the downloaded file
-          unzip terraform_1.2.9_linux_amd64.zip
-
-          # Move the Terraform binary to /usr/local/bin
-          sudo mv terraform /usr/local/bin/
-
-          # Make sure Terraform is executable
-          sudo chmod +x /usr/local/bin/terraform
-
-          # Verify the installation
-          terraform --version
+        terraformVersion: '1.2.9' # '0.14.7'
 
     - task: Bash@3
       displayName: 'Debug Working Directory and Terraform'
@@ -110,33 +64,35 @@ stages:
           terraform -version
 
     # Step 2: Terraform Init
-    - task: Bash@3
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terraform Init'
       inputs:
-        targetType: 'inline'
-        script: |
-          terraform init \
-            -backend-config="storage_account_name=tfstate357223227" \
-            -backend-config="container_name=tfstate" \
-            -backend-config="key=test.terraform.tfstate" \
-            -backend-config="resource_group_name=Azuredevops"
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+        backendServiceArm: '$(azureServiceConnectionId)'
+        backendAzureRmResourceGroupName: '$(resourceGroupName)'
+        backendAzureRmStorageAccountName: '$(storagetAccountName)'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'test.terraform.tfstate'
 
     # Step 3: Terraform Validate
-    - task: Bash@3
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terraform Validate'
       inputs:
-        targetType: 'inline'
-        script: |
-          terraform validate
+        provider: 'azurerm'
+        command: 'validate'
 
     # Step 4: Terraform Apply
-    - task: Bash@3
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terraform Apply'
       inputs:
-        targetType: 'inline'
-        script: |
-          terraform apply -auto-approve -var="public_key_path=$(udacity_public_key.secureFilePath)"
-        
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
+        # commandOptions: '-var "public_key_path=$(udacity_public_key.secureFilePath)"'
+        environmentServiceNameAzureRM: 'azServiceConnection'
+
     # # Postman Regression Test Suite    
     # # ToDo: Verify the working directory
     # - task: CmdLine@2
