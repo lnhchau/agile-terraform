@@ -66,6 +66,15 @@ stages:
           terraform -version
           ls -la /home/chaulnh/myagent/_work/_tool/terraform/1.2.9/x64/
 
+    - task: Bash@3
+      displayName: 'Set Terraform PATH'
+      inputs:
+        targetType: 'inline'
+        script: |
+          export PATH=/home/chaulnh/myagent/_work/_tool/terraform/1.2.9/x64:$PATH
+          echo $PATH
+          terraform -version
+
     # Step 2: Terraform Init
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terraform Init'
