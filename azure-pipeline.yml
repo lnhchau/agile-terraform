@@ -8,16 +8,13 @@ variables:
   webAppName: 'myapp-AppService'
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: 'test'
-  udacityPubKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCyAGIa5DYTn06/jxxZQzHGCd9MuEX81uXea/Wmshvsy+4XWcYrOtXyjomNrj56ivOg9TVoi3T60JHW6Mm6X6d7rz3n1ZmiC1Iwv6QWibsmukZxzQrZDxM4kgxZ2GMoonQawc1ozBkTAQGivvI1ZcT4xhUZdKVaFiAZjiNcTJAWYzlqL53BNsvelJQaccv4KhXuzg3kXecMus84oGlj4O6ZStjoo2n2sARGJABuvATwvEqbl0y2or6XRF05SirdoovtiHGZbQrWA6NSxoJYmbSHT4V2T+sw9fAcfTyUsqGKmpbTGg4Ys36mPkyDgB+SCVsKv+eNVeiS3cEGOHQRIDcdiQE2YrjL/38DgnTIfzuOgZUST6QJ/j75POfgZwNdRZDCDz79WN3/VuLhRFkHskLiAGfta9uLFG0RLC+q0nZxo2TVCaaC4YnK+SHfskdKeJ5IwZE9wxkszlYbFWQBDipxgk7z9CABpdTmuxSZUoFJxhDdf+9s902JBrjC2g8EYtLzKWbojV5HrQnrWCSDTO8n9Gb5/UKo6M7ENqBaua4CCiFrg4Ns8nCcCciEJeHg2+wxSaR/qmAIsghjRwuHJXTXymy8wvNpq3JZbS7KEhGsz7snjxhzswac3dhsqSjXbSBqQIc2H8f5FkuKZfhBDDZzjQJcr93HYlEEbsMPqCqnsw== odl_user_271120@udacityhol.onmicrosoft.com'
-
-
 
 stages:
 - stage: Build
   displayName: Build Stage
-  variables:
-  - group: Udacity
-  
+  # variables:
+  # - group: Udacity
+
   jobs:
   - job: Build
     displayName: Build Infrastructure
