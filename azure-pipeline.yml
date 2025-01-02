@@ -211,7 +211,7 @@ stages:
   - deployment: DeployFakeRestAPI
     displayName: 'Deploy FakeRestAPI to VM'
     pool: agentPool  # Custom agent pool
-    environment: 'test'
+    environment: test
     strategy:
       runOnce:
         deploy:
@@ -285,7 +285,7 @@ stages:
     # ToDo: Run Performance Tests Suite
   - job: Performance
     displayName: 'Performance Tests Suite'
-    pool: 'agentPool'
+    pool: agentPool
     steps:
 
     #--------------------------------------------#    
@@ -361,8 +361,7 @@ stages:
 
   - deployment: Functional
     displayName: 'Functional UI Tests Suite'
-    environment:
-      name:  'test'
+    environment: test
       resourceType: VirtualMachine
       tags: test, packer-created-vm
     strategy:
