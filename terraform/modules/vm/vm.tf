@@ -1,4 +1,4 @@
-resource "azurerm_network_interface" "" {
+resource "azurerm_network_interface" "test" {
   name                = "nic0"
   location            = var.location
   resource_group_name = var.resource_group
@@ -11,7 +11,7 @@ resource "azurerm_network_interface" "" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "" {
+resource "azurerm_linux_virtual_machine" "main" {
   name                = "vm0"
   location            = var.location
   resource_group_name = var.resource_group
@@ -31,8 +31,8 @@ resource "azurerm_linux_virtual_machine" "" {
   }
 
   os_disk {
-    caching           = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    caching           = "ReadWrite"
   }
 
 #   source_image_reference {
