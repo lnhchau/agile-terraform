@@ -3,7 +3,7 @@ variables:
   azureServiceConnectionId: '80cffd51-bec3-4d34-a419-1d6d65e40e97'
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
-  webAppName: 'Azuredevops-app-AppService'
+  webAppName: 'myapp-AppService'
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: 'test'
 
@@ -13,8 +13,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build Infrastructure
-    pool:
-      name: agentPool  # Corrected to use custom agent pool
+    pool: agentPool  # Corrected to use custom agent pool
     steps:
     - task: Bash@3
       displayName: 'Install: Node.js and npm'
@@ -61,7 +60,7 @@ stages:
     #     workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environment/test'
     #     backendServiceArm: 'azServiceConnection'
     #     backendAzureRmResourceGroupName: 'Azuredevops'
-    #     backendAzureRmStorageAccountName: 'tfstate1605014538'
+    #     backendAzureRmStorageAccountName: 'tfstate357223227'
     #     backendAzureRmContainerName: 'tfstate'
     #     backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -117,7 +116,7 @@ stages:
         targetType: 'inline'
         script: |
           terraform init \
-            -backend-config="storage_account_name=tfstate1605014538" \
+            -backend-config="storage_account_name=tfstate357223227" \
             -backend-config="container_name=tfstate" \
             -backend-config="key=test.terraform.tfstate" \
             -backend-config="resource_group_name=Azuredevops"
@@ -211,8 +210,7 @@ stages:
   jobs:
   - deployment: DeployFakeRestAPI
     displayName: 'Deploy FakeRestAPI to VM'
-    pool:
-      name: agentPool  # Custom agent pool
+    pool: agentPool  # Custom agent pool
     environment: 'test'
     strategy:
       runOnce:
@@ -231,8 +229,7 @@ stages:
   jobs:
   - job: Integration
     displayName: 'Integration Tests Suite'
-    pool:
-      name: agentPool
+    pool: agentPool
     steps:
     - task: Bash@3
       displayName: 'Install: Postman & Newman'
@@ -288,8 +285,7 @@ stages:
     # ToDo: Run Performance Tests Suite
   - job: Performance
     displayName: 'Performance Tests Suite'
-    pool:
-      name: 'agentPool'
+    pool: 'agentPool'
     steps:
 
     #--------------------------------------------#    

@@ -8,7 +8,7 @@ def setup_browser():
     """Set up the browser with options."""
     logging.info('Starting the browser...')
     options = ChromeOptions()
-    options.add_argument("--headless")  # Uncomment for headless execution in Azure DevOps
+    options.add_argument("--headless")  
     return webdriver.Chrome(options=options)
 
 def login(driver, user, password):
@@ -84,6 +84,7 @@ def functional_ui_test(user, password):
     """Execute the functional UI test."""
     logging.basicConfig(filename='selenium.log', level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
     driver = setup_browser()
+    logging.info("Browser started successfully! Checking that the site resolves.")
     
     try:
         login(driver, user, password)
