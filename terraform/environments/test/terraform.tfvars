@@ -18,7 +18,7 @@ address_prefix_test = "10.5.1.0/24"
 # VM
 admin_username = "chaulnh"
 number_of_vms = 2
-packer_image = "/subscriptions/157081ad-2288-4aa4-b6d0-69f2165b7326/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
+packer_image = "/subscriptions/67bd0a2e-3527-452d-b5c9-168d529053f6/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
 
 # Azure pipelines
 public_key_path = "id_rsa.pub"

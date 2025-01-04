@@ -1,7 +1,7 @@
 name: Azure Pipelines
 variables:
-  azureServiceConnectionId: '352fc713-b111-4214-b984-1e0aacaf8872'
-  storagetAccountName: 'tfstate357223227'
+  # azureServiceConnectionId: 'fb6c8162-444e-4a84-890d-7fabc68c38d2'
+  # storagetAccountName: 'tfstate49905854'
   resourceGroupName: 'Azuredevops'
   python.version: '3.9.12'
   vmImageName: 'myPackerImage'
@@ -45,7 +45,7 @@ stages:
       inputs:
         sshKeySecureFile: 'id_rsa'
         sshPublicKey: '$(udacityPubKey)'
-        knownHostsEntry: 'AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI5h2HIc9VOyWFwF/mfH3mul/1DW5rSr6mBK4jHnsFwvkv75Dcx57tEl1z8J/J3FpS2djQIiFZFFGRUZodqsAFI='
+        knownHostsEntry: 
 
     - task: DownloadSecureFile@1
       name: public_key
