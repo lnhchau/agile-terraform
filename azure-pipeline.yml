@@ -45,6 +45,7 @@ stages:
       inputs:
         sshKeySecureFile: 'id_rsa'
         sshPublicKey: '$(udacityPubKey)'
+        hostName: '$(hostName)'  
         knownHostsEntry: 
 
     - task: DownloadSecureFile@1
