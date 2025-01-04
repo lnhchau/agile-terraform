@@ -59,15 +59,15 @@ stages:
       inputs:
         terraformVersion: '1.10.2' # '0.14.7'
 
-    - task: Bash@3
-      displayName: 'Debug Working Directory and Terraform'
-      inputs:
-        targetType: 'inline'
-        script: |
-          echo "Terraform Path: $(which terraform)"
-          echo "Terraform Version:"
-          terraform -version
-          ls -la /home/chaulnh/myagent/_work/_tool/terraform/1.2.9/x64/
+    # - task: Bash@3
+    #   displayName: 'Debug Working Directory and Terraform'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       echo "Terraform Path: $(which terraform)"
+    #       echo "Terraform Version:"
+    #       terraform -version
+    #       ls -la /home/chaulnh/myagent/_work/_tool/terraform/1.2.9/x64/
 
     - task: Bash@3
       displayName: 'Set Terraform PATH'
