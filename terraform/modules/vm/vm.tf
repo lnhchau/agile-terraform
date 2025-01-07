@@ -26,10 +26,10 @@ resource "azurerm_linux_virtual_machine" "main" {
     azurerm_network_interface.test.id
   ]
 
-  admin_ssh_key {
-    username       = var.admin_username
-    public_key     = file(var.public_key_path)
-  }
+  # admin_ssh_key {
+  #   username       = var.admin_username
+  #   public_key     = file(var.public_key_path)
+  # }
 
   os_disk {
     storage_account_type = "Standard_LRS"
