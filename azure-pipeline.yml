@@ -20,17 +20,17 @@ stages:
     displayName: Build Infrastructure
     pool: agentPool  # Corrected to use custom agent pool
     steps:
-    - task: Bash@3
-      displayName: 'Install: Node.js and npm'
-      inputs:
-        targetType: 'inline'
-        script: |
-          sudo apt update
-          sudo apt install -y nodejs
-          sudo apt install -y npm
-          sudo apt install python3-apt -y
-          node -v   # Check Node.js version
-          npm -v    # Check npm version
+    # - task: Bash@3
+    #   displayName: 'Install: Node.js and npm'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       sudo apt update
+    #       sudo apt install -y nodejs
+    #       sudo apt install -y npm
+    #       sudo apt install python3-apt -y
+    #       node -v   # Check Node.js version
+    #       npm -v    # Check npm version
 
     - task: Bash@3
       displayName: 'Install: Postman & Newman'
@@ -53,6 +53,11 @@ stages:
       displayName: 'Download Public Key'
       inputs:
         secureFile: 'id_rsa.pub'
+
+    - task: JMeterInstaller@0
+      displayName: 'Install: JMeter 5.2.1'
+      inputs:
+        jmeterVersion: '5.2.1'
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
@@ -133,19 +138,19 @@ stages:
     #     testRunTitle:       # ToDo
         
     #--------------------------------------------#
-    # Selenium (UI) Test Suite - Archive the package  
-    # "ArchiveFiles@2" picks up the web package and archives it.
-    - task: ArchiveFiles@2
-      displayName: 'Archive UI Tests'
-      inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/selenium'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip'
-    # Selenium Test Suite - Publish the package  
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
-      displayName: 'Upload Package'
-      artifact: drop-uitests
+    # # Selenium (UI) Test Suite - Archive the package  
+    # # "ArchiveFiles@2" picks up the web package and archives it.
+    # - task: ArchiveFiles@2
+    #   displayName: 'Archive UI Tests'
+    #   inputs:
+    #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/selenium'
+    #     includeRootFolder: false
+    #     archiveType: 'zip'
+    #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip'
+    # # Selenium Test Suite - Publish the package  
+    # - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-uitests.zip   # Same as the archiveFile artifact above. 
+    #   displayName: 'Upload Package'
+    #   artifact: drop-uitests
 
     #--------------------------------------------#    
     # FakeRestAPI - Archive
@@ -164,23 +169,23 @@ stages:
 
     - publish: automatedtesting/selenium/functionTest.py
       displayName: 'Upload: UI Tests definition'
-      artifact: drop-fakerestapi
+      artifact: drop-uitests
 
     #--------------------------------------------#  
-    # JMeter (Performance) Test Suite - Archive
-    # ToDo: Complete the ArchiveFiles@2 task and publish step 
-    - task: ArchiveFiles@2
-      displayName: 'Archive PerformanceTestSuite'
-      inputs:
-        rootFolderOrFile: 'automatedtesting/jmeter'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
+    # # JMeter (Performance) Test Suite - Archive
+    # # ToDo: Complete the ArchiveFiles@2 task and publish step 
+    # - task: ArchiveFiles@2
+    #   displayName: 'Archive PerformanceTestSuite'
+    #   inputs:
+    #     rootFolderOrFile: 'automatedtesting/jmeter'
+    #     includeRootFolder: false
+    #     archiveType: 'zip'
+    #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip'
 
-    # JMeter Test Suite - Publish    
-    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip
-      displayName: 'Upload Package'
-      artifact: drop-perftests
+    # # JMeter Test Suite - Publish    
+    # - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-perftests.zip
+    #   displayName: 'Upload Package'
+    #   artifact: drop-perftests
 
 - stage: Deploy
   displayName: Deploy Stage
@@ -204,10 +209,12 @@ stages:
 - stage: Tests
   displayName: Test Stage
   jobs:
+
   - job: Integration
     displayName: 'Integration Tests Suite'
     pool: agentPool
     steps:
+
     - task: Bash@3
       displayName: 'Install: Postman & Newman'
       inputs:
@@ -265,81 +272,172 @@ stages:
     pool: agentPool
     steps:
 
-    #--------------------------------------------#    
-    # Run JMeter test suite against the App Service
-    - task: CmdLine@2
-      displayName: 'Setup JMeter and Run Performance Tests'
+  #   #--------------------------------------------#    
+  #   # Run JMeter test suite against the App Service
+  #   - task: CmdLine@2
+  #     displayName: 'Setup JMeter and Run Performance Tests'
+  #     inputs:
+  #       script: |
+  #         # Download and extract JMeter
+  #         wget "https://apache.mirrors.lucidnetworks.net//jmeter/binaries/apache-jmeter-5.2.1.tgz"
+  #         tar -xf apache-jmeter-5.2.1.tgz
+
+  #         # Extract Performance Test artifacts
+  #         unzip -o $(Build.BuildId)-perftests.zip
+
+  #         # Run Stress Test
+  #         ./apache-jmeter-5.2.1/bin/jmeter -n -t StressTest.jmx -j stress-test-report/stress-results.jtl -f
+  #         cat stress-test-report/stress-results.jtl
+
+  #         # Run Endurance Test
+  #         ./apache-jmeter-5.2.1/bin/jmeter -n -t EnduranceTest.jmx -j endurance-test-report/endurance-results.jtl -f
+  #         cat endurance-test-report/endurance-results.jtl
+
+  #       workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
+
+  #   # # Run Endurance Tests Suite
+  #   # - task: CmdLine@2
+  #   #   displayName: 'Run: Endurance Test Suite'
+  #   #   inputs:
+  #   #     script: |
+  #   #       # Run Endurance Test
+  #   #       ./apache-jmeter-5.2.1/bin/jmeter -n \
+  #   #         -t automatedtesting/jmeter/EnduranceTest.jmx \
+  #   #         -l endurance-test-report/endurance-results.jtl \
+  #   #         -e \
+  #   #         -o endurance-test-report
+  #   #     workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
+
+  #   # # Publish Endurance Test Results
+  #   # - task: publishhtmlreport@1
+  #   #   displayName: 'Publish: Endurance Test Results'
+  #   #   inputs:
+  #   #     htmlType: 'Jmeter'
+  #   #     JmeterReportsPath: '$(Build.SourcesDirectory)/endurance-test-report'
+
+  #   # # Run Stress Test Suite
+  #   # - task: CmdLine@2
+  #   #   displayName: 'Run: Stress Test Suite'
+  #   #   inputs:
+  #   #     script: |
+  #   #       ./apache-jmeter-5.2.1/bin/jmeter -n \
+  #   #         -t automatedtesting/jmeter/StressTest.jmx \
+  #   #         -l stress-test-report/stress-results.jtl \
+  #   #         -e \
+  #   #         -o stress-test-report
+  #   #     workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
+
+  #   # # Publish Stress Test Results
+  #   # - task: publishhtmlreport@1
+  #   #   displayName: 'Publish: Stress Test Results'
+  #   #   inputs:
+  #   #     htmlType: 'Jmeter'
+  #   #     JmeterReportsPath: '$(Build.SourcesDirectory)/stress-test-report'
+
+  #   # # Print Performance Test Logs
+  #   # - task: CmdLine@2
+  #   #   displayName: 'Print: Performance Test Logs'
+  #   #   inputs:
+  #   #     script: |
+  #   #       ls -lah endurance-test-report/
+  #   #       ls -lah stress-test-report/
+  #   #       cat stress-test-report/stress-results.jtl
+
+  # - deployment: Functional
+  #   displayName: 'Functional UI Tests Suite'
+  #   environment: 
+  #     name: test
+  #     resourceType: VirtualMachine
+  #     tags: test, packer-created-vm
+  #   strategy:
+  #     runOnce:
+  #       deploy:
+  #         steps:
+          
+  #         - download: current
+  #           artifact: drop-fakerestapi
+
+  #         - task: Bash@3
+
+  #           displayName: 'Selenium Tests'
+  #           inputs:
+  #             targetType: 'inline'
+  #             script: |
+  #               #! /bin/bash
+                
+  #               sudo apt-get upgrade -y
+  #               sudo apt-get install python3-pip -y
+  #               sudo apt-get install unzip -y
+  #               sudo apt-get install -y chromium-browser
+  #               pip3 install selenium
+  #               cd ~/
+  #               DIR=/home/chaulnh/app
+  #               if [ ! -d "$DIR" ]; then
+  #                   mkdir app
+  #               fi
+  #               mv /home/chaulnh/azagent/_work/1/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip app
+  #               cd app
+  #               unzip -o $(Build.BuildId)-fakerestapi.zip
+  #               FILE=/home/chaulnh/app/chromedriver_linux64.zip
+  #               if [ ! -f "$FILE" ]; then
+  #                   LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+  #                   wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+  #                   unzip -o chromedriver_linux64.zip
+  #                   sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
+  #               fi
+  #               export PATH=$PATH:/home/chaulnh/app
+  #               echo "Starting Selenium Tests"
+  #               python3 functionTest.py >> selenium.log
+  #               echo "Completed Selenium Tests. Check selenium.log for results."
+    
+    - task: Bash@3
+      displayName: 'Endurance Test Suite'
       inputs:
+        targetType: 'inline'
         script: |
-          # Download and extract JMeter
-          wget "https://apache.mirrors.lucidnetworks.net//jmeter/binaries/apache-jmeter-5.2.1.tgz"
-          tar -xf apache-jmeter-5.2.1.tgz
+          jmeter -n \
+            -t automatedtesting/jmeter/EnduranceTest.jmx \
+            -l endurance-test-report/endurance-results.jtl \
+            -e \
+            -o endurance-test-report
 
-          # Extract Performance Test artifacts
-          unzip -o $(Build.BuildId)-perftests.zip
+    - task: publishhtmlreport@1
+      displayName: 'Publish: Endurance Test Results'
+      inputs:
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '$(Build.SourcesDirectory)/endurance-test-report'    
 
-          # Run Stress Test
-          ./apache-jmeter-5.2.1/bin/jmeter -n -t StressTest.jmx -j stress-test-report/stress-results.jtl -f
-          cat stress-test-report/stress-results.jtl
+    - task: Bash@3
+      displayName: 'Testing: Stress Test Suite'
+      inputs:
+        targetType: 'inline'
+        script: |
+          jmeter -n \
+            -t automatedtesting/jmeter/StressTest.jmx \
+            -l stress-test-report/stress-results.jtl \
+            -e \
+            -o stress-test-report
 
-          # Run Endurance Test
-          ./apache-jmeter-5.2.1/bin/jmeter -n -t EnduranceTest.jmx -j endurance-test-report/endurance-results.jtl -f
-          cat endurance-test-report/endurance-results.jtl
-
-        workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
-
-    # # Run Endurance Tests Suite
-    # - task: CmdLine@2
-    #   displayName: 'Run: Endurance Test Suite'
-    #   inputs:
-    #     script: |
-    #       # Run Endurance Test
-    #       ./apache-jmeter-5.2.1/bin/jmeter -n \
-    #         -t automatedtesting/jmeter/EnduranceTest.jmx \
-    #         -l endurance-test-report/endurance-results.jtl \
-    #         -e \
-    #         -o endurance-test-report
-    #     workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
-
-    # # Publish Endurance Test Results
-    # - task: publishhtmlreport@1
-    #   displayName: 'Publish: Endurance Test Results'
-    #   inputs:
-    #     htmlType: 'Jmeter'
-    #     JmeterReportsPath: '$(Build.SourcesDirectory)/endurance-test-report'
-
-    # # Run Stress Test Suite
-    # - task: CmdLine@2
-    #   displayName: 'Run: Stress Test Suite'
-    #   inputs:
-    #     script: |
-    #       ./apache-jmeter-5.2.1/bin/jmeter -n \
-    #         -t automatedtesting/jmeter/StressTest.jmx \
-    #         -l stress-test-report/stress-results.jtl \
-    #         -e \
-    #         -o stress-test-report
-    #     workingDirectory: $(Pipeline.Workspace)/drop-fakerestapi
-
-    # # Publish Stress Test Results
-    # - task: publishhtmlreport@1
-    #   displayName: 'Publish: Stress Test Results'
-    #   inputs:
-    #     htmlType: 'Jmeter'
-    #     JmeterReportsPath: '$(Build.SourcesDirectory)/stress-test-report'
-
-    # # Print Performance Test Logs
-    # - task: CmdLine@2
-    #   displayName: 'Print: Performance Test Logs'
-    #   inputs:
-    #     script: |
-    #       ls -lah endurance-test-report/
-    #       ls -lah stress-test-report/
-    #       cat stress-test-report/stress-results.jtl
+    - task: publishhtmlreport@1
+      displayName: 'Publish: Stress Test Results'
+      inputs:
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '$(Build.SourcesDirectory)/stress-test-report'    
+        
+        
+    - task: Bash@3
+      displayName: 'Print: Performance Test Logs'
+      inputs:
+        targetType: 'inline'
+        script: |
+          ls -lah endurance-test-report/
+          ls -lah stress-test-report/
+          cat jmeter.log        
 
   - deployment: Functional
-    displayName: 'Functional UI Tests Suite'
-    environment: 
-      name: test
+    displayName: 'Functional UI Tests'
+    environment:
+      name:  'test'
       resourceType: VirtualMachine
       tags: test, packer-created-vm
     strategy:
@@ -348,37 +446,17 @@ stages:
           steps:
           
           - download: current
-            artifact: drop-fakerestapi
+            artifact: drop-uitests
 
           - task: Bash@3
 
-            displayName: 'Selenium Tests'
+            displayName: 'Test: Selenium Tests'
             inputs:
               targetType: 'inline'
               script: |
                 #! /bin/bash
-                
-                sudo apt-get upgrade -y
-                sudo apt-get install python3-pip -y
-                sudo apt-get install unzip -y
-                sudo apt-get install -y chromium-browser
-                pip3 install selenium
-                cd ~/
-                DIR=/home/chaulnh/app
-                if [ ! -d "$DIR" ]; then
-                    mkdir app
-                fi
-                mv /home/chaulnh/azagent/_work/1/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip app
-                cd app
-                unzip -o $(Build.BuildId)-fakerestapi.zip
-                FILE=/home/chaulnh/app/chromedriver_linux64.zip
-                if [ ! -f "$FILE" ]; then
-                    LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-                    wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
-                    unzip -o chromedriver_linux64.zip
-                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
-                fi
-                export PATH=$PATH:/home/chaulnh/app
-                echo "Starting Selenium Tests"
-                python3 functionTest.py >> selenium.log
-                echo "Completed Selenium Tests. Check selenium.log for results."
+                echo 'Hello from a custom VM with pre-installed Selenium, Chromium-browser & Chromedriver!'
+                source env/bin/activate
+                export PATH=$PATH:`pwd` # add chromedriver executable to path
+                python3 ../drop-uitests/FunctionalTest.py
+                cat selenium.log
