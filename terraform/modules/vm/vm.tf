@@ -15,10 +15,11 @@ resource "azurerm_linux_virtual_machine" "main" {
   name                = "vm0"
   location            = var.location
   resource_group_name = var.resource_group
-  size                = "Standard_DS2_v2"
-  admin_username      = var.admin_username
+  size                = "Standard_B1s"
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
   source_image_id                 = var.packer_image
-  disable_password_authentication = true
+  disable_password_authentication = false
 
   network_interface_ids = [
     #element(azurerm_network_interface.test.*.id, count.index)

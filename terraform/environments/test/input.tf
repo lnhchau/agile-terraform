@@ -38,6 +38,11 @@ variable "admin_username" {
   default     = "chaulnh"
 }
 
+variable "admin_password" {
+  description = "The admin user name in the Virtual Machine."
+  default     = "password@123456"
+}
+
 variable "number_of_vms" {
   description = "The number of Virtual Machines."
   type        = number

@@ -1,20 +1,20 @@
 provider "azurerm" {
-  # tenant_id       = "${var.tenant_id}"
-  # subscription_id = "${var.subscription_id}"
-  # client_id       = "${var.client_id}"
-  # client_secret   = "${var.client_secret}"
+  # tenant_id       = "${var.tenant_id}" # update to run locally
+  # subscription_id = "${var.subscription_id}" # update to run locally
+  # client_id       = "${var.client_id}" # update to run locally
+  # client_secret   = "${var.client_secret}" # update to run locally
   features {}
 }
 
 terraform {
   backend "azurerm" {
-    storage_account_name = "tfstate357223227"
+    storage_account_name = "tfstate2928211241"
     container_name       = "tfstate"
     key                  = "test.terraform.tfstate"
-    # access_key           = var.arm_access_key
+    # access_key           = var.arm_access_key # update to run locally
   }
 }
-module "resource_group" {
+module "resource_group" { # comment to run locally
   source               = "../../modules/resource_group"
   resource_group       = var.resource_group
   location             = var.location
@@ -62,6 +62,7 @@ module "vm" {
   resource_type        = "vm"
 
   admin_username       = var.admin_username
+  admin_password       = var.admin_password
   subnet_id_test       = module.network.subnet_id_test
   instance_ids         = module.publicip.public_ip_address_id
   packer_image         = var.packer_image
