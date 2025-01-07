@@ -4,7 +4,7 @@
 # client_secret = ""
 # tenant_id = ""
 
-# Resource Group/Location
+# Reso urce Group/Location
 location = "East US"
 resource_group = "Azuredevops"
 application_type = "myapp"
