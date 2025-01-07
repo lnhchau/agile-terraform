@@ -6,7 +6,7 @@
 
 # Resource Group/Location
 location = "East US"
-resource_group = "Azuredevops-test"
+resource_group = "NetworkWatcherRG"
 application_type = "myapp"
 arm_access_key = ""
 
