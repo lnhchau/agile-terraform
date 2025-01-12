@@ -1,5 +1,6 @@
 resource "azurerm_network_interface" "test" {
-  name                = "nic0"
+  count               = var.number_of_vms
+  name                = "nic-${count.index}"
   location            = var.location
   resource_group_name = var.resource_group
 
@@ -12,7 +13,8 @@ resource "azurerm_network_interface" "test" {
 }
 
 resource "azurerm_linux_virtual_machine" "main" {
-  name                = "vm0"
+  count                           = var.number_of_vms
+  name                            = "vm-${count.index}"
   location            = var.location
   resource_group_name = var.resource_group
   size                = "Standard_B1s"
