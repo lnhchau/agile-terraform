@@ -11,9 +11,9 @@ resource "azurerm_network_interface" "test" {
     public_ip_address_id          = var.instance_ids
   }
 
-  lifecycle {
-    ignore_changes = [subnet_id]
-  }
+  # lifecycle {
+  #   ignore_changes = [subnet_id]
+  # }
 }
 
 resource "azurerm_linux_virtual_machine" "main" {
