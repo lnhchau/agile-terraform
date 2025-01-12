@@ -11,7 +11,7 @@ terraform {
     storage_account_name = "tfstate225489716"
     container_name       = "tfstate"
     key                  = "test.terraform.tfstate"
-    # access_key           = var.arm_access_key # update to run locally
+    access_key           = "ziNkXBt2N3YDvfLQQvg/Fh9RV/Q1XMU3z9ihPqW5lrAZowua52rcBkuPgcPwerkDF7QYed9p1qiW+AStT3exlg=="
   }
 }
 module "resource_group" { # comment to run locally
