@@ -4,5 +4,5 @@ resource "azurerm_public_ip" "test" {
   resource_group_name = "${var.resource_group}"
   allocation_method   = "Dynamic" # Dynamic is only allowed with Basic SKU
   domain_name_label   = "chaulnhvm"
-  sku  = "Basic"
+  # sku  = "Basic"
 }
