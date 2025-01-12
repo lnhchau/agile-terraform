@@ -24,8 +24,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   disable_password_authentication = false
 
   network_interface_ids = [
-    #element(azurerm_network_interface.test.*.id, count.index)
-    azurerm_network_interface.test.id
+    element(azurerm_network_interface.test.*.id, count.index)
+    # azurerm_network_interface.test.id
   ]
 
   # admin_ssh_key {
