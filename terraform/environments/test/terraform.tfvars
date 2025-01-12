@@ -5,7 +5,7 @@
 # tenant_id = ""
 
 # Reso urce Group/Location
-location = "eastus" # "South Central US"
+location = "South Central US"
 resource_group = "Azuredevops"
 application_type = "myapp"
 arm_access_key = ""
