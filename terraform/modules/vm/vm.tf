@@ -10,14 +10,18 @@ resource "azurerm_network_interface" "test" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = var.instance_ids
   }
+
+  lifecycle {
+    ignore_changes = [subnet_id]
+  }
 }
 
 resource "azurerm_linux_virtual_machine" "main" {
   count                           = var.number_of_vms
   name                            = "vm-${count.index}"
-  location            = var.location
-  resource_group_name = var.resource_group
-  size                = "Standard_B1s"
+  location                        = var.location
+  resource_group_name             = var.resource_group
+  size                            = "Standard_B1s"
   admin_username                  = var.admin_username
   admin_password                  = var.admin_password
   source_image_id                 = var.packer_image
