@@ -45,7 +45,7 @@ module "appservice" {
   application_type = "${var.application_type}"
   resource_type    = "AppService"
   resource_group   = var.resource_group
-  service_plan_sku = "B1" # Specify B1 SKU explicitly
+  # service_plan_sku = "B1" # Specify B1 SKU explicitly
 }
 module "publicip" {
   source           = "../../modules/publicip"
