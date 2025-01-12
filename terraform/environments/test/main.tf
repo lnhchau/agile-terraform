@@ -11,14 +11,14 @@ terraform {
     storage_account_name = "tfstate225489716"
     container_name       = "tfstate"
     key                  = "test.terraform.tfstate"
-    access_key           = var.arm_access_key # update to run locally
+    # access_key           = var.arm_access_key # update to run locally
   }
 }
-# module "resource_group" { # comment to run locally
-#   source               = "../../modules/resource_group"
-#   resource_group       = var.resource_group
-#   location             = var.location
-# }
+module "resource_group" { # comment to run locally
+  source               = "../../modules/resource_group"
+  resource_group       = var.resource_group
+  location             = var.location
+}
 module "network" {
   source               = "../../modules/network"
   address_space        = "${var.address_space}"
