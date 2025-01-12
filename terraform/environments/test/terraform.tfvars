@@ -18,7 +18,7 @@ address_prefix_test = "10.5.1.0/24"
 # VM
 admin_username = "chaulnh"
 admin_password = "password@123456"
-number_of_vms = 2
+number_of_vms = 1
 packer_image = "/subscriptions/51003162-956a-4e6f-877b-3d0d913c7ca1/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
 
 # # Azure pipelines
