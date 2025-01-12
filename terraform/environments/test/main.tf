@@ -14,11 +14,11 @@ terraform {
     # access_key           = var.arm_access_key # update to run locally
   }
 }
-module "resource_group" { # comment to run locally
-  source               = "../../modules/resource_group"
-  resource_group       = var.resource_group
-  location             = var.location
-}
+# module "resource_group" { # comment to run locally
+#   source               = "../../modules/resource_group"
+#   resource_group       = var.resource_group
+#   location             = var.location
+# }
 module "network" {
   source               = "../../modules/network"
   address_space        = "${var.address_space}"
