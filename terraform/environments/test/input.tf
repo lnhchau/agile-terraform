@@ -20,5 +20,5 @@ variable "admin_username" {}
 variable "admin_password" {}
 variable "public_key" {}
 variable "public_key_path" {}
-variable "packer_image" {}
+# variable "packer_image" {}
 variable "arm_access_key" {}
