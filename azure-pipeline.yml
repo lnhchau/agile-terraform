@@ -5,7 +5,7 @@ pool: agentPool
 variables:
   python.version: '3.9.12'
   azureServiceConnectionId: 'azServiceConnection'
-  # storagetAccountName: 'tfstate49905854'
+  # storagetAccountName: 'tfstate323512575'
   resourceGroupName: 'Azuredevops'
   # vmImageName: 'myPackerImage'
   webAppName: 'myapp-AppService'
