@@ -74,7 +74,7 @@ stages:
               sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC12RjEqA7fV4p+yokcJkDY+mgU1yonsFN6C/YoIlVSzqwIBDOpqVz0rniENThzphhgrdgbyAVMiVLpXh1hslsOMN1dQ0aswpy0wTn4XCweJyOFMFuJtWs6dzrS9WFkHbl0Awt/Rwg7nWgUhXMoDyAj84J3Fi+XdmI/Y5ZYzbf9ZjO3pQfppdLXf3p1qKciE3rBzNVoNkAih8PNqogGMa9LgldeqTJHgb2+fcBi67MaS0h/o15DuvwiPPvafwQu4zs8gyvHaGutvKdlKt6d/FEJIc7NCOut4mT9pKNUbS0g/vWVBQdjrLSEkYhK2U0T5diAT6pFw1oQnDRFJsmNs4GDYcyEo1WDcswOch/TVvA4CdUTwm1FV9OUegfgz1FVPsRqoPC00Hu028+9B0lXc0lKWFoKC46czb0Tnv0FvafmtOcA/j8bvfybWCaHEtTiO1uIoSlSV6sdrzk1w6aDrJREbCy96RGwnmwdIMbjmZMK4nxe9AfbcyvnBev8+AXnz0U=" # variable value
               sshKeySecureFile: "id_rsa" # Use secure file feature in the pipeline library UI to save the "id_rsa" file, as mentioned here: https://learn.microsoft.com/en-us/azure/devops/pipelines/library/secure-files?view=azure-devops#add-a-secure-file
         
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+          - task: TerraformInstaller@1
             displayName: 'Install Terraform'
             inputs:
               terraformVersion: 'latest' # '1.10.2' # '1.2.9' # '1.10.2' # '0.14.7'
@@ -85,11 +85,12 @@ stages:
           #     echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
           #   displayName: "Set ARM_ACCESS_KEY for Terraform"
 
-          - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
+          - task: TerraformTaskV3@3
             displayName: "Terrafom init"
             inputs:
               provider: "azurerm"
               command: "init"
+              commandOptions: '-backend-config=backend.conf'
               workingDirectory: "$(projectRoot)/terraform/environments/test"
               backendServiceArm: "$(azureServiceConnectionId)"
               backendAzureRmResourceGroupName: "Azuredevops"
