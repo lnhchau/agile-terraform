@@ -60,9 +60,9 @@ stages:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
-        additionalArguments: '-auto-approve -log-level=DEBUG'
-      # env:
-      #   ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
+        additionalArguments: '-var "arm_access_key=$(ARM_ACCESS_KEY)"'
+      env:
+        ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
 
     # - task: Bash@3
     #   displayName: 'Install: Postman & Newman'

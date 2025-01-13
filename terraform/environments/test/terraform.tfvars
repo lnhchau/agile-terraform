@@ -21,6 +21,8 @@ admin_username = "chaulnh"
 admin_password = "password@123456"
 # number_of_vms = 2
 # packer_image = "/subscriptions/51003162-956a-4e6f-877b-3d0d913c7ca1/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
+arm_access_key = "CDt+XbSb3NCnigukP02x9g+c93hrRUBdLNPex4Z3t/rFrCARA7EMczktIQygsXwFLnIdaCyuDI9g+AStKuSd2Q=="
+
 
 # SSH key
 public_key_path = "/home/chaulnh/work/_temp/id_rsa.pub"
