@@ -1,8 +1,8 @@
 provider "azurerm" {
-  tenant_id       = "${var.tenant_id}" # update to run locally
-  subscription_id = "${var.subscription_id}" # update to run locally
-  client_id       = "${var.client_id}" # update to run locally
-  client_secret   = "${var.client_secret}" # update to run locally
+  # tenant_id       = "${var.tenant_id}" # update to run locally
+  # subscription_id = "${var.subscription_id}" # update to run locally
+  # client_id       = "${var.client_id}" # update to run locally
+  # client_secret   = "${var.client_secret}" # update to run locally
   features {}
 }
 
