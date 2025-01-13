@@ -3,7 +3,7 @@ name: Azure Pipelines
 pool: agentPool
 
 variables:
-  python.version: '3.9.12'
+  python.version: '3.7.6'
   azureServiceConnectionId: 'azServiceConnection'
   # storagetAccountName: 'tfstate323512575'
   resourceGroupName: 'Azuredevops'
