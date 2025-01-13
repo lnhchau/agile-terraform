@@ -26,10 +26,10 @@ stages:
       inputs:
         terraformVersion: '1.2.9' # '1.10.2' # '0.14.7'
 
-    # Step 2: Terraform Init
-    - script: |
-        echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
-      displayName: "Set ARM_ACCESS_KEY for Terraform"
+    # # Step 2: Terraform Init
+    # - script: |
+    #     echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
+    #   displayName: "Set ARM_ACCESS_KEY for Terraform"
 
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
       displayName: 'Terrafom init'
@@ -42,8 +42,8 @@ stages:
         backendAzureRmStorageAccountName: '$(storagetAccountName)'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
-      env:
-        ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
+      # env:
+      #   ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
 
     # Step 3: Terraform Validate
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV3@3
@@ -60,6 +60,9 @@ stages:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         environmentServiceNameAzureRM: '$(azureServiceConnectionId)'
+        additionalArguments: '-auto-approve -log-level=DEBUG'
+      # env:
+      #   ARM_ACCESS_KEY: $(ARM_ACCESS_KEY)
 
     # - task: Bash@3
     #   displayName: 'Install: Postman & Newman'
