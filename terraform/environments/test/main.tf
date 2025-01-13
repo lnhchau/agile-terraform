@@ -9,11 +9,11 @@ provider "azurerm" {
 terraform {
   backend "azurerm" {}
 }
-module "resource_group" { # comment to run locally
-  source               = "../../modules/resource_group"
-  resource_group       = var.resource_group
-  location             = var.location
-}
+# module "resource_group" { # comment to run locally
+#   source               = "../../modules/resource_group"
+#   resource_group       = var.resource_group
+#   location             = var.location
+# }
 module "network" {
   source               = "../../modules/network"
   address_space        = var.address_space
@@ -21,7 +21,7 @@ module "network" {
   virtual_network_name = var.virtual_network_name
   application_type     = var.application_type
   resource_type        = "NET"
-  resource_group       = module.resource_group.resource_group_name
+  resource_group       = var.resource_group # module.resource_group.resource_group_name
   address_prefix_test  = var.address_prefix_test
 }
 
@@ -56,7 +56,7 @@ module "vm" {
   location         = var.location
   application_type = var.application_type
   resource_type    = "VM"
-  resource_group   = module.resource_group.resource_group_name
+  resource_group   = var.resource_group # module.resource_group.resource_group_name
   subnet_id        = module.network.subnet_id_test
   public_ip_address_id        = module.publicip.public_ip_address_id
   vm_size              = var.vm_size
