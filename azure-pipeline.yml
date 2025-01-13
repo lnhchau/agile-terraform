@@ -3,9 +3,9 @@ name: Azure Pipelines
 pool: agentPool
 
 variables:
-  python.version: '3.7.6'
+  python.version: '3.9.21'
   azureServiceConnectionId: 'azServiceConnection'
-  # storagetAccountName: 'tfstate323512575'
+  # storagetAccountName: 'tfstate1293510251'
   resourceGroupName: 'Azuredevops'
   # vmImageName: 'myPackerImage'
   webAppName: 'myapp-AppService'
@@ -24,7 +24,7 @@ stages:
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform'
       inputs:
-        terraformVersion: '1.2.9' # '1.10.2' # '0.14.7'
+        terraformVersion: '1.10.2' # '1.2.9' # '1.10.2' # '0.14.7'
 
     # # Step 2: Terraform Init
     # - script: |

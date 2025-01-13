@@ -1,7 +1,7 @@
 # Azure subscription vars
-subscription_id = "850c12f5-152f-4692-a8e9-2a5d3b9f39db"
-client_id = "3db2dd70-0372-4b1f-8d79-d6e7f1c26454"
-client_secret = "guk8Q~RpP24vBS4NJU4aU5OcP6Amjidxh76aLd"
+subscription_id = "a9ab978b-a5d4-42b1-a453-fe269"
+client_id = "7a1d63a2-522c-4848-8fe2-aee02f"
+client_secret = "6cZ8Q~PI3IZJo3hCoIragW9yGWn"
 tenant_id = "f958e84a-92b8-439f-a62d-4f45996b6d07"
 
 # Reso urce Group/Location
@@ -21,7 +21,7 @@ admin_username = "chaulnh"
 admin_password = "password@123456"
 # number_of_vms = 2
 # packer_image = "/subscriptions/51003162-956a-4e6f-877b-3d0d913c7ca1/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
-arm_access_key = "CDt+XbSb3NCnigukP02x9g+c93hrRUBdLNPex4Z3t/rFrCARA7EMczktIQygsXwFLnIdaCyuDI9g+AStKuSd2Q=="
+arm_access_key = "reZ64h8TCVhBFmgKj2mG8yU/AUYhPZyq+9x7apWh//7KpQxF8fc1TuK6UyW+ZQnqZuydN724KerS+AStuL+oiA=="
 
 
 # SSH key
