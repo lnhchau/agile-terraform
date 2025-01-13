@@ -11,14 +11,14 @@ variable "application_type" {}
 
 # Network
 variable virtual_network_name {}
-variable address_prefixes {}
+# variable address_prefixes {}
 variable address_prefix_test {}
 variable address_space {}
 
 # VM
-variable "admin_username" {}
-variable "admin_password" {}
-variable "public_key" {}
+variable "vm_size" {}
+variable "vm_admin_username" {}
+variable "packer_image_name" {}
+variable "packer_image" {}
 variable "public_key_path" {}
-# variable "packer_image" {}
-variable "arm_access_key" {}
+variable "public_key" {}

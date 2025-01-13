@@ -11,29 +11,29 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "${var.application_type}-${var.resource_type}-internal"
-  location            = "${var.location}"
-  resource_group_name = "${var.resource_group}"
-  size                = "Standard_DS2_v2"
-  admin_username      = "${var.admin_username}"
-  admin_password      = "${var.admin_password}"
-  network_interface_ids = [azurerm_network_interface.nic.id]
-  
+data "azurerm_image" "packer-image" {
+  name                = var.packer_image_name
+  resource_group_name = var.resource_group
+}
+
+resource "azurerm_linux_virtual_machine" "test" {
+  name                            = "${var.application_type}-${var.resource_type}-vm"
+  location                        = var.location
+  resource_group_name             = var.resource_group
+  size                            = var.vm_size
+  source_image_id                 = data.azurerm_image.packer-image.id
+  admin_username                  = var.vm_admin_username
+  disable_password_authentication = true
+
+  network_interface_ids = [azurerm_network_interface.test.id]
+
   admin_ssh_key {
-    username   = "${var.admin_username}"
-    public_key = "${var.public_key}"
+    username   = var.vm_admin_username
+    public_key = file(var.public_key_path)
   }
-  
+
   os_disk {
-    caching           = "ReadWrite"
+    caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-  }
-  
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
-    version   = "latest"
   }
 }
