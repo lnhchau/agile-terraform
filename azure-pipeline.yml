@@ -9,7 +9,7 @@ variables:
   System.Debug: true
   python.version: "3.9.21"
   azureServiceConnectionId: "azServiceConnection"
-  # storagetAccountName: "tfstate1293510251"
+  # storagetAccountName: "tfstate2908728699"
   resourceGroupName: "Azuredevops"
   # vmImageName: "myPackerImage"
   webAppName: "myapp-AppService"

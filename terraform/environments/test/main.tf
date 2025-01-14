@@ -62,5 +62,6 @@ module "vm" {
   vm_size              = var.vm_size
   vm_admin_username    = var.vm_admin_username
   packer_image_name    = var.packer_image_name
+  packer_image    = var.packer_image
   public_key_path      = var.public_key_path
 }

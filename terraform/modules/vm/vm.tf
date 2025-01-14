@@ -21,7 +21,7 @@ resource "azurerm_linux_virtual_machine" "test" {
   location                        = var.location
   resource_group_name             = var.resource_group
   size                            = var.vm_size
-  source_image_id                 = data.azurerm_image.packer-image.id
+  source_image_id                 = var.packer_image # data.azurerm_image.packer-image.id
   admin_username                  = var.vm_admin_username
   disable_password_authentication = true
 
