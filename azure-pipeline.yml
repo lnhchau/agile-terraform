@@ -9,9 +9,9 @@ variables:
   System.Debug: true
   python.version: "3.9.21"
   azureServiceConnectionId: "80c30943-7dcd-4d85-98d2-f01e1184bcad"
-  storagetAccountName: "tfstate2908728699"
+  storagetAccountName: "tfstate719927393"
   resourceGroupName: "Azuredevops"
-  vmImageName: "myPackerImage"
+  vmImageName: "myPackerImage2"
   webAppName: "myapp-AppService"
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: "test"
