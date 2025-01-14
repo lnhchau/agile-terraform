@@ -1,9 +1,11 @@
 resource "azurerm_service_plan" "test" {
-  name                = "${var.application_type}-${var.resource_type}-plan"
-  location            = var.location
-  resource_group_name = var.resource_group
-  os_type             = "Windows"
-  sku_name            = "F1"
+  name                = "myapp-AppService-plan"
+  location            = "eastus" # Change to a region with quota
+  resource_group_name = "Azuredevops"
+  sku {
+    tier = "Free"
+    size = "F1"
+  }
 }
 
 resource "azurerm_windows_web_app" "test" {
