@@ -14,10 +14,16 @@ resource "azurerm_linux_web_app" "test" {
   service_plan_id     = azurerm_service_plan.test.id
 
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = "0"
-    # Add any additional settings if required
+    "WEBSITE_RUN_FROM_PACKAGE" = 0
   }
-
+  site_config {
+    # always_on = false
+    # application_stack {
+    #   current_stack  = "dotnet"
+    #   dotnet_version = "v4.0"
+    # }
+  }
+  
   tags = {
     environment = "test"
     project     = "QA"
