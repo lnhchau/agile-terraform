@@ -8,7 +8,7 @@ pool: agentPool
 variables:
   System.Debug: true
   python.version: "3.9.21"
-  azureServiceConnectionId: "azServiceConnection"
+  # azureServiceConnectionId: "azServiceConnection"
   # storagetAccountName: "tfstate2908728699"
   resourceGroupName: "Azuredevops"
   # vmImageName: "myPackerImage"
@@ -75,7 +75,7 @@ stages:
           - task: InstallSSHKey@0
             inputs:
               knownHostsEntry: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=" # variable value
-              sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC12RjEqA7fV4p+yokcJkDY+mgU1yonsFN6C/YoIlVSzqwIBDOpqVz0rniENThzphhgrdgbyAVMiVLpXh1hslsOMN1dQ0aswpy0wTn4XCweJyOFMFuJtWs6dzrS9WFkHbl0Awt/Rwg7nWgUhXMoDyAj84J3Fi+XdmI/Y5ZYzbf9ZjO3pQfppdLXf3p1qKciE3rBzNVoNkAih8PNqogGMa9LgldeqTJHgb2+fcBi67MaS0h/o15DuvwiPPvafwQu4zs8gyvHaGutvKdlKt6d/FEJIc7NCOut4mT9pKNUbS0g/vWVBQdjrLSEkYhK2U0T5diAT6pFw1oQnDRFJsmNs4GDYcyEo1WDcswOch/TVvA4CdUTwm1FV9OUegfgz1FVPsRqoPC00Hu028+9B0lXc0lKWFoKC46czb0Tnv0FvafmtOcA/j8bvfybWCaHEtTiO1uIoSlSV6sdrzk1w6aDrJREbCy96RGwnmwdIMbjmZMK4nxe9AfbcyvnBev8+AXnz0U=" # variable value
+              sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+3vCmC/WMZH3BN4VPgCOODt5MProB6ggBEIO1v+TiTtrZKYGL6kqT/cJiu9y9ArHRfa8JMLt+JNztiCDCRmboK/1DA8UV/z2kFRwUG9DKu8rSNwQAWDD2zr3/9ipN+ziHkknO/dTN++Sq2g1x8CtCkIacyTwzVZ7ICJuQKdLMdVZB3ZF5IcLpsTteGbVFoRMZOvu5rN3sWonwPmHuu12tezBUtddZcl4mQ1EeDOjEVhZoTo2snCmbXWJxDGlDliQSIGb7mAbmGlVPuESYDLCNni892JWtQOIa0QzgmQEsBEURHHoarMu3olSGBpfZa5srfhEYSmq9Q/xCKOn0LrOmxBoQPUZiQ/wuEcBtl9lYEtdEuJh+LBeeFJOY8/ZKxb5a2O/lsXyH6KYW8Crsd5PutIqzhWH+Blonl47GYcBcj6dxCK27xJge4drIxWNCx3b6j/CIzevAPJn6YO5C0XnWyRoiJBLpdjAEwZusaeFyL8e51ZKxneYvHeg2qN2QOrE= acer@LAPTOP-NOIATE85" # variable value
               sshKeySecureFile: "id_rsa" # Use secure file feature in the pipeline library UI to save the "id_rsa" file, as mentioned here: https://learn.microsoft.com/en-us/azure/devops/pipelines/library/secure-files?view=azure-devops#add-a-secure-file
 
           - task: Bash@3
