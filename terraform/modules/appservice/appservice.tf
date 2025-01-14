@@ -5,8 +5,17 @@ resource "azurerm_service_plan" "test" {
   os_type             = "Windows"
   sku_name            = "F1"
 }
+resource "null_resource" "delay" {
+  provisioner "local-exec" {
+    command = "sleep 30"
+  }
+
+  depends_on = [azurerm_service_plan.test]
+}
 
 resource "azurerm_windows_web_app" "test" {
+  depends_on = [null_resource.delay]
+
   name                = "${var.application_type}-${var.resource_type}-chaulnh-prj3"
   location            = var.location
   resource_group_name = var.resource_group
