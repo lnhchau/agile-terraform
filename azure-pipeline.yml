@@ -92,10 +92,10 @@ stages:
               terraformVersion: 'latest' # '1.10.2' # '1.2.9' # '1.10.2' # '0.14.7'
 
           #--------------------------------------------#
-          # Step 2: Terraform Init
-          - script: |
-              echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
-            displayName: "Set ARM_ACCESS_KEY for Terraform"
+          # # Step 2: Terraform Init
+          # - script: |
+          #     echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
+          #   displayName: "Set ARM_ACCESS_KEY for Terraform"
 
           - task: TerraformTaskV3@3
             displayName: "Terrafom init"
@@ -109,9 +109,9 @@ stages:
               backendAzureRmStorageAccountName: "$(storagetAccountName)"
               backendAzureRmContainerName: "tfstate"
               backendAzureRmKey: "test.terraform.tfstate"
-            env:
-              TF_LOG: DEBUG
-              TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-init-debug.log"
+            # env:
+            #   TF_LOG: DEBUG
+            #   TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-init-debug.log"
 
           # Step 3: Terraform Validate
           - task: TerraformTaskV3@3
@@ -120,9 +120,9 @@ stages:
               workingDirectory: "$(projectRoot)/terraform/environments/test"
               provider: "azurerm"
               command: "validate"
-            env:
-              TF_LOG: DEBUG
-              TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-validate-debug.log"
+            # env:
+            #   TF_LOG: DEBUG
+            #   TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-validate-debug.log"
 
           - task: TerraformTaskV3@3
             displayName: "Terraform plan"
@@ -131,9 +131,9 @@ stages:
               command: "plan"
               workingDirectory: "$(projectRoot)/terraform/environments/test/"
               environmentServiceNameAzureRM: "$(azureServiceConnectionId)"
-            env:
-              TF_LOG: DEBUG
-              TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-plan-debug.log"
+            # env:
+            #   TF_LOG: DEBUG
+            #   TF_LOG_PATH: "$(projectRoot)/terraform/environments/test/tf-plan-debug.log"
 
           # Step 4: Terraform Apply
           - task: TerraformTaskV3@3
