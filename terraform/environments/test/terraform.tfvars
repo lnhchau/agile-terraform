@@ -5,7 +5,7 @@ client_secret = "Uoj8Q~Jvcybhsl5Fag4JY9qfMgIGVAWsFHwRpbdz"
 tenant_id = "f958e84a-92b8-439f-a62d-4f45996b6d07"
 
 # Reso urce Group/Location
-location = "South Central US"
+location = "West Europe"
 resource_group = "Azuredevops"
 application_type = "myapp"
 
@@ -18,8 +18,8 @@ address_prefix_test = "10.5.1.0/24"
 # VM
 vm_size           = "Standard_B1s"
 vm_admin_username = "chaulnh"
-packer_image_name = "myPackerImage"
-packer_image = "/subscriptions/a3a536c2-3690-4c5f-8032-998a8dc3234e/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage"
+packer_image_name = "packerImage"
+packer_image = "/subscriptions/a3a536c2-3690-4c5f-8032-998a8dc3234e/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/packerImage"
 
 # SSH key
 public_key_path = "id_rsa.pub"
