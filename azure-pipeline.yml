@@ -8,10 +8,10 @@ pool: agentPool
 variables:
   System.Debug: true
   python.version: "3.9.21"
-  # azureServiceConnectionId: "azServiceConnection"
-  # storagetAccountName: "tfstate2908728699"
+  azureServiceConnectionId: "80c30943-7dcd-4d85-98d2-f01e1184bcad"
+  storagetAccountName: "tfstate2908728699"
   resourceGroupName: "Azuredevops"
-  # vmImageName: "myPackerImage"
+  vmImageName: "myPackerImage"
   webAppName: "myapp-AppService"
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: "test"
@@ -92,10 +92,10 @@ stages:
               terraformVersion: 'latest' # '1.10.2' # '1.2.9' # '1.10.2' # '0.14.7'
 
           #--------------------------------------------#
-          # # Step 2: Terraform Init
-          # - script: |
-          #     echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
-          #   displayName: "Set ARM_ACCESS_KEY for Terraform"
+          # Step 2: Terraform Init
+          - script: |
+              echo "##vso[task.setvariable variable=ARM_ACCESS_KEY]$(ARM_ACCESS_KEY)"
+            displayName: "Set ARM_ACCESS_KEY for Terraform"
 
           - task: TerraformTaskV3@3
             displayName: "Terrafom init"
