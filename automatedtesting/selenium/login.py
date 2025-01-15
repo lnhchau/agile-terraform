@@ -18,7 +18,7 @@ def login(user, password):
     options.add_argument('--remote-debugging-pipe')
 
     # Specify the Chrome binary location
-    options.binary_location = "/usr/local/bin/google-chrome"  # Update this if Chrome binary is located elsewhere
+    options.binary_location = "/usr/bin/google-chrome"  # Update this if Chrome binary is located elsewhere
     
     # Use the existing ChromeDriver
     service = ChromeService(executable_path="/usr/local/bin/chromedriver")  # Path to your existing ChromeDriver
