@@ -1,7 +1,7 @@
 # Azure subscription vars
-subscription_id = "a3a536c2-3690-4c5f-8032-998a8dc3234e"
-client_id = "90a17280-5e99-4097-8bdd-c01a1a629169"
-client_secret = "Uoj8Q~Jvcybhsl5Fag4JY9qfMgIGVAWsFHwRpbdz"
+subscription_id = "0ee6d06f-69ab-4b3b-9f35-003e1b6eb227"
+client_id = "28c85d6d-6373-47ea-9c98-ed0cbc4e29b1"
+client_secret = "Mq38Q~96n0tePOr20~p5Wt8W1h_GW4.ReIn.ccQ."
 tenant_id = "f958e84a-92b8-439f-a62d-4f45996b6d07"
 
 # Reso urce Group/Location
@@ -17,7 +17,7 @@ address_prefix_test = "10.5.1.0/24"
 
 # VM
 vm_size           = "Standard_B1s"
-vm_admin_username = "chaulnh"
+admin_username = "chaulnh"
 packer_image_name = "myPackerImage2"
 packer_image = "/subscriptions/a3a536c2-3690-4c5f-8032-998a8dc3234e/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage2"
 

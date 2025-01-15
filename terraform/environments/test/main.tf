@@ -54,14 +54,15 @@ module "publicip" {
 module "vm" {
   source           = "../../modules/vm"
   location         = var.location
+  resource_group   = var.resource_group # module.resource_group.resource_group_name
+
   application_type = var.application_type
   resource_type    = "VM"
-  resource_group   = var.resource_group # module.resource_group.resource_group_name
+  public_ip        = module.publicip.public_ip_address_id
+  admin_username    = var.admin_username
   subnet_id        = module.network.subnet_id_test
-  public_ip_address_id        = module.publicip.public_ip_address_id
-  vm_size              = var.vm_size
-  vm_admin_username    = var.vm_admin_username
-  packer_image_name    = var.packer_image_name
-  packer_image    = var.packer_image
-  public_key_path      = var.public_key_path
+  # vm_size              = var.vm_size
+  # packer_image_name    = var.packer_image_name
+  # packer_image    = var.packer_image
+  # public_key_path      = var.public_key_path
 }
