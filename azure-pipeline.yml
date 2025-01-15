@@ -8,7 +8,7 @@ pool: agentPool
 variables:
   System.Debug: true
   python.version: '3.7.6'
-  azureServiceConnectionId: "78a4f072-8a90-4d5e-af97-b2095156fe11"
+  azureServiceConnectionId: "46248cf7-0458-42e3-9d38-e9a6a4845674"
   storagetAccountName: "tfstate195443015"
   resourceGroupName: "Azuredevops"
   webAppName: "myapp-AppService"
