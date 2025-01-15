@@ -197,6 +197,20 @@ stages:
             displayName: 'Upload Package'
             artifact: drop-perftests
 
+          #--------------------------------------------#
+          - task: ArchiveFiles@2
+            displayName: 'Archive Postman Tests'
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip'
+
+          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip
+            displayName: 'Upload Postman Tests'
+            artifact: drop-postman
+
+
   #--------------------------------------------#
   # DEPLOYMENT
   #--------------------------------------------#
@@ -379,12 +393,25 @@ stages:
         pool: agentPool
         displayName: Run Postman Tests
         steps:
+        - download: current
+        artifact: drop-postman
+        displayName: 'Download Postman Tests'
+
+        # Optional: Debugging step to confirm the files are downloaded
         - task: Bash@3
-          displayName: "Create Postman Directory"
+          displayName: 'Verify Postman Files'
           inputs:
-            targetType: "inline"
+            targetType: 'inline'
             script: |
-              mkdir -p $(projectRoot)/automatedtesting/postman
+              echo "Checking Postman files..."
+              ls -la $(projectRoot)/automatedtesting/postman
+
+        # - task: Bash@3
+        #   displayName: "Create Postman Directory"
+        #   inputs:
+        #     targetType: "inline"
+        #     script: |
+        #       mkdir -p $(projectRoot)/automatedtesting/postman
 
         - task: Bash@3
           displayName: Install Node.js and npm
