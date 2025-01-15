@@ -219,72 +219,72 @@ stages:
                     appType: "webApp"
                     # resourceGroupName: $(resourceGroupName)
                     package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
-                    # deploymentMethod: auto
+                    deploymentMethod: auto
 
-                    #--------------------------------------------#
-                    # Run JMeter test suite against the App Service
-                    - task: CmdLine@2
-                      displayName: "Run JMeter test suite against the App Service"
-                      inputs:
-                        script: |
-                          sudo apt-get upgrade -y
-                          sudo apt-get install openjdk-11-jdk -y
-                          sudo apt-get install openjdk-11-jre-headless -y
-                          export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
-                          wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz"
-                          tar -xf apache-jmeter-5.6.3.tgz
-                          unzip -o $(Build.BuildId)-perftests.zip
-                          pwd
-                          ls -la
-                          echo "Performing Endurance test."
-                          ./apache-jmeter-5.6.3/bin/jmeter -n -t PerformanceTestSuite.jmx \
-                                                          -l performance-test-result.csv \
-                                                          -e -f -o jmeter-performance-html-report \
-                                                          -j jmeter-performance.log
-                          echo "Performing Stress test."
-                          ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx \
-                                                          -l stress-test-result.csv \
-                                                          -e -f -o jmeter-stress-html-report \
-                                                          -j jmeter-stress.log
+                #--------------------------------------------#
+                # Run JMeter test suite against the App Service
+                - task: CmdLine@2
+                  displayName: "Run JMeter test suite against the App Service"
+                  inputs:
+                    script: |
+                      sudo apt-get upgrade -y
+                      sudo apt-get install openjdk-11-jdk -y
+                      sudo apt-get install openjdk-11-jre-headless -y
+                      export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/
+                      wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz"
+                      tar -xf apache-jmeter-5.6.3.tgz
+                      unzip -o $(Build.BuildId)-perftests.zip
+                      pwd
+                      ls -la
+                      echo "Performing Endurance test."
+                      ./apache-jmeter-5.6.3/bin/jmeter -n -t PerformanceTestSuite.jmx \
+                                                      -l performance-test-result.csv \
+                                                      -e -f -o jmeter-performance-html-report \
+                                                      -j jmeter-performance.log
+                      echo "Performing Stress test."
+                      ./apache-jmeter-5.6.3/bin/jmeter -n -t StressTest.jmx \
+                                                      -l stress-test-result.csv \
+                                                      -e -f -o jmeter-stress-html-report \
+                                                      -j jmeter-stress.log
 
-                          ls -la
-                          cat jmeter-performance.log
-                                                                  
-                        workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
+                      ls -la
+                      cat jmeter-performance.log
+                                                              
+                    workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
 
-                    - task: ArchiveFiles@2
-                      displayName: 'Archive JMeter Performance report'
-                      inputs:
-                        rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
-                        includeRootFolder: false
-                        archiveType: 'zip'
-                        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
+                - task: ArchiveFiles@2
+                  displayName: 'Archive JMeter Performance report'
+                  inputs:
+                    rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
+                    includeRootFolder: false
+                    archiveType: 'zip'
+                    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
 
-                    - task: ArchiveFiles@2
-                      displayName: 'Archive JMeter Stress Test Report'
-                      inputs:
-                        rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
-                        includeRootFolder: false
-                        archiveType: 'zip'
-                        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip'
+                - task: ArchiveFiles@2
+                  displayName: 'Archive JMeter Stress Test Report'
+                  inputs:
+                    rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
+                    includeRootFolder: false
+                    archiveType: 'zip'
+                    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip'
 
-                    # JMeter report - Publish
-                    # - task: PublishPipelineArtifact@1
-                      # displayName: 'Publish JMeter logs'
-                      # inputs:
-                        # targetPath: '$(System.DefaultWorkingDirectory)'
-                        # artifact: drop-jmeter-report
+                # JMeter report - Publish
+                # - task: PublishPipelineArtifact@1
+                  # displayName: 'Publish JMeter logs'
+                  # inputs:
+                    # targetPath: '$(System.DefaultWorkingDirectory)'
+                    # artifact: drop-jmeter-report
 
-                    # JMeter report - Publish
-                    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip
-                      displayName: 'Upload Package JMeter Performance Report'
-                      artifact: drop-jmeter-performance-report
+                # JMeter report - Publish
+                - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip
+                  displayName: 'Upload Package JMeter Performance Report'
+                  artifact: drop-jmeter-performance-report
 
-                    # JMeter report - Publish
-                    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip
-                      displayName: 'Upload Package JMeter Stress Report'
-                      artifact: drop-jmeter-stress-report
-            
+                # JMeter report - Publish
+                - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip
+                  displayName: 'Upload Package JMeter Stress Report'
+                  artifact: drop-jmeter-stress-report
+        
 
       #--------------------------------------------#
       # Selenium | Functional UI Tests
