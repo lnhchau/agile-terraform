@@ -9,7 +9,7 @@ variables:
   System.Debug: true
   python.version: '3.7.6'
   azureServiceConnectionId: "78a4f072-8a90-4d5e-af97-b2095156fe11"
-  storagetAccountName: "tfstate310076684"
+  storagetAccountName: "tfstate195443015"
   resourceGroupName: "Azuredevops"
   webAppName: "myapp-AppService"
   projectRoot: "$(System.DefaultWorkingDirectory)"
