@@ -14,6 +14,7 @@ variables:
   webAppName: "myapp-AppService"
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: "test"
+  pipelineWorkspace: "/home/chaulnh/myagent/_work/1"
 
 stages:
   - stage: Provisioning
@@ -218,7 +219,7 @@ stages:
                     appName: $(webAppName)
                     appType: "webApp"
                     # resourceGroupName: $(resourceGroupName)
-                    package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+                    package: $(pipelineWorkspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
                     deploymentMethod: auto
 
                 #--------------------------------------------#
@@ -250,7 +251,7 @@ stages:
                       ls -la
                       cat jmeter-performance.log
                                                               
-                    workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
+                    workingDirectory: $(pipelineWorkspace)/drop-perftests            # ToDo: Use the artifact name from the task above
 
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Performance report'
@@ -513,7 +514,7 @@ stages:
   #                 inputs:
   #                   targetType: "inline"
   #                   script: |
-  #                     unzip -o $(Pipeline.Workspace)/drop-ui-tests/$(Build.BuildId)-ui-tests.zip -d .
+  #                     unzip -o $(pipelineWorkspace)/drop-ui-tests/$(Build.BuildId)-ui-tests.zip -d .
   #                     sudo mkdir -p /var/log/selenium
   #                     sudo chmod 664 /var/log/selenium
                       
