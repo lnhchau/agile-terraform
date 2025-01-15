@@ -1,37 +1,29 @@
-# #!/usr/bin/env python
-# This script uses Selenium to perform automated browser interactions on the SauceDemo website.
-# It includes functions to log in, add/remove items from the shopping cart, and complete a checkout process.
-
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 import datetime
 
 def timestamp():
-    """
-    Generates a timestamp string for logging.
-    Returns:
-        str: Current timestamp in 'YYYY-MM-DD HH:MM:SS' format with a tab character.
-    """
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\t'
 
 def login(user, password):
-    """
-    Starts the browser, navigates to the SauceDemo login page, and logs in using the provided credentials.
-    Args:
-        user (str): Username for login.
-        password (str): Password for login.
-    Returns:
-        webdriver.Chrome: Selenium WebDriver instance after login.
-    """
     print(timestamp() + 'Starting the browser...')
+    
+    # Configure Chrome options
     options = ChromeOptions()
     options.add_argument("--headless")  # Run browser in headless mode
     options.add_argument('--no-sandbox')
     options.add_argument("--disable-extensions")
     options.add_argument('--remote-debugging-pipe')
 
-    driver = webdriver.Chrome(options=options)
+    # Specify the Chrome binary location
+    options.binary_location = "/usr/local/bin/google-chrome"  # Update this if Chrome binary is located elsewhere
+    
+    # Use the existing ChromeDriver
+    service = ChromeService(executable_path="/usr/local/bin/chromedriver")  # Path to your existing ChromeDriver
+
+    driver = webdriver.Chrome(service=service, options=options)
     print(timestamp() + 'Browser started successfully. Navigating to the login page.')
     driver.get('https://www.saucedemo.com/')
     
@@ -113,13 +105,10 @@ def check_out(driver):
     driver.find_element(By.CSS_SELECTOR, '#back-to-products').click()
 
 if __name__ == "__main__":
-    # Number of items to interact with
     N_ITEMS = 6
-    # Test credentials for login
     TEST_USERNAME = 'standard_user'
     TEST_PASSWORD = 'secret_sauce'
-    
-    # Perform tests
+
     driver = login(TEST_USERNAME, TEST_PASSWORD)
     add_cart(driver, N_ITEMS)
     remove_cart(driver, N_ITEMS)
