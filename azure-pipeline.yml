@@ -204,7 +204,7 @@ stages:
     displayName: Deployment Stage
     jobs:
       - deployment: FakeRestAPI
-        pool: agentPool  
+        pool: agentPool
         displayName: "Deploy FakeRestAPI to VM"
         environment: $(environmentName)
         strategy:
@@ -234,7 +234,8 @@ stages:
                       wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz"
                       tar -xf apache-jmeter-5.6.3.tgz
                       unzip -o $(Build.BuildId)-perftests.zip
-
+                      pwd
+                      ls -la
                       # Ensure directories exist
                       mkdir -p $(Pipeline.Workspace)/drop-perftests/jmeter-performance-html-report
                       mkdir -p $(Pipeline.Workspace)/drop-perftests/jmeter-stress-html-report
@@ -261,7 +262,7 @@ stages:
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Performance Report'
                   inputs:
-                    rootFolderOrFile: '$(Pipeline.Workspace)/drop-perftests/jmeter-performance-html-report'
+                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
@@ -270,7 +271,7 @@ stages:
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Stress Test Report'
                   inputs:
-                    rootFolderOrFile: '$(Pipeline.Workspace)/drop-perftests/jmeter-stress-html-report'
+                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip'
