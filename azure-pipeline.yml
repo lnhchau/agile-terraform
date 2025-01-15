@@ -197,18 +197,18 @@ stages:
             displayName: 'Upload Package'
             artifact: drop-perftests
 
-          #--------------------------------------------#
-          - task: ArchiveFiles@2
-            displayName: 'Archive Postman Tests'
-            inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
-              includeRootFolder: false
-              archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip'
+          # #--------------------------------------------#
+          # - task: ArchiveFiles@2
+          #   displayName: 'Archive Postman Tests'
+          #   inputs:
+          #     rootFolderOrFile: '$(System.DefaultWorkingDirectory)/automatedtesting/postman'
+          #     includeRootFolder: false
+          #     archiveType: 'zip'
+          #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip'
 
-          - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip
-            displayName: 'Upload Postman Tests'
-            artifact: drop-postman
+          # - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-postman.zip
+          #   displayName: 'Upload Postman Tests'
+          #   artifact: drop-postman
 
 
   #--------------------------------------------#
