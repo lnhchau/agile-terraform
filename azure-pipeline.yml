@@ -393,18 +393,18 @@ stages:
         pool: agentPool
         displayName: Run Postman Tests
         steps:
-        - download: current
-          artifact: drop-postman
-          displayName: 'Download Postman Tests'
+        # - download: current
+        #   artifact: drop-postman
+        #   displayName: 'Download Postman Tests'
 
-        # Optional: Debugging step to confirm the files are downloaded
-        - task: Bash@3
-          displayName: 'Verify Postman Files'
-          inputs:
-            targetType: 'inline'
-            script: |
-              echo "Checking Postman files..."
-              ls -la $(projectRoot)/automatedtesting/postman
+        # # Optional: Debugging step to confirm the files are downloaded
+        # - task: Bash@3
+        #   displayName: 'Verify Postman Files'
+        #   inputs:
+        #     targetType: 'inline'
+        #     script: |
+        #       echo "Checking Postman files..."
+        #       ls -la $(projectRoot)/automatedtesting/postman
 
         # - task: Bash@3
         #   displayName: "Create Postman Directory"
