@@ -14,7 +14,6 @@ variables:
   webAppName: "myapp-AppService"
   projectRoot: "$(System.DefaultWorkingDirectory)"
   environmentName: "test"
-  pipelineWorkspace: "/home/chaulnh/myagent/_work/1"
 
 stages:
   - stage: Provisioning
@@ -219,7 +218,7 @@ stages:
                     appName: $(webAppName)
                     appType: "webApp"
                     # resourceGroupName: $(resourceGroupName)
-                    package: $(pipelineWorkspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
+                    package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
                     deploymentMethod: auto
 
                 #--------------------------------------------#
@@ -235,8 +234,11 @@ stages:
                       wget "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz"
                       tar -xf apache-jmeter-5.6.3.tgz
                       unzip -o $(Build.BuildId)-perftests.zip
-                      pwd
-                      ls -la
+
+                      # Ensure directories exist
+                      mkdir -p $(Pipeline.Workspace)/drop-perftests/jmeter-performance-html-report
+                      mkdir -p $(Pipeline.Workspace)/drop-perftests/jmeter-stress-html-report
+
                       echo "Performing Endurance test."
                       ./apache-jmeter-5.6.3/bin/jmeter -n -t PerformanceTestSuite.jmx \
                                                       -l performance-test-result.csv \
@@ -248,15 +250,18 @@ stages:
                                                       -e -f -o jmeter-stress-html-report \
                                                       -j jmeter-stress.log
 
-                      ls -la
+                      # Debug output
+                      echo "Files generated:"
+                      ls -la $(Pipeline.Workspace)/drop-perftests
                       cat jmeter-performance.log
                                                               
-                    workingDirectory: $(pipelineWorkspace)/drop-perftests            # ToDo: Use the artifact name from the task above
+                    workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
 
+                # Archive and publish JMeter performance reports
                 - task: ArchiveFiles@2
-                  displayName: 'Archive JMeter Performance report'
+                  displayName: 'Archive JMeter Performance Report'
                   inputs:
-                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
+                    rootFolderOrFile: '$(Pipeline.Workspace)/drop-perftests/jmeter-performance-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
@@ -265,7 +270,7 @@ stages:
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Stress Test Report'
                   inputs:
-                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
+                    rootFolderOrFile: '$(Pipeline.Workspace)/drop-perftests/jmeter-stress-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip'
@@ -514,7 +519,7 @@ stages:
   #                 inputs:
   #                   targetType: "inline"
   #                   script: |
-  #                     unzip -o $(pipelineWorkspace)/drop-ui-tests/$(Build.BuildId)-ui-tests.zip -d .
+  #                     unzip -o $(Pipeline.Workspace)/drop-ui-tests/$(Build.BuildId)-ui-tests.zip -d .
   #                     sudo mkdir -p /var/log/selenium
   #                     sudo chmod 664 /var/log/selenium
                       
