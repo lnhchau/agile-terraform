@@ -394,8 +394,8 @@ stages:
         displayName: Run Postman Tests
         steps:
         - download: current
-        artifact: drop-postman
-        displayName: 'Download Postman Tests'
+          artifact: drop-postman
+          displayName: 'Download Postman Tests'
 
         # Optional: Debugging step to confirm the files are downloaded
         - task: Bash@3
