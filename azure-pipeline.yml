@@ -7,7 +7,7 @@ pool: agentPool
 
 variables:
   System.Debug: true
-  python.version: '3.8.20'
+  python.version: '3.7.6'
   azureServiceConnectionId: "78a4f072-8a90-4d5e-af97-b2095156fe11"
   storagetAccountName: "tfstate310076684"
   resourceGroupName: "Azuredevops"
@@ -334,7 +334,7 @@ stages:
                     sudo apt-get install python3-pip -y
                     sudo apt-get install unzip -y
                     sudo apt-get install -y chromium-browser
-                    pip install selenium
+                    pip3 install selenium
                     cd ~/
                     DIR=/home/chaulnh/app
                     if [ ! -d "$DIR" ]; then
