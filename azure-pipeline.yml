@@ -255,7 +255,7 @@ stages:
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Performance report'
                   inputs:
-                    rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
+                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-performance-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
@@ -263,7 +263,7 @@ stages:
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Stress Test Report'
                   inputs:
-                    rootFolderOrFile: '/home/devopsagent/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
+                    rootFolderOrFile: '/home/chaulnh/myagent/_work/1/drop-perftests/jmeter-stress-html-report'
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-stress-html-report.zip'
@@ -318,7 +318,7 @@ stages:
                     if [ ! -d "$DIR" ]; then
                         mkdir app
                     fi
-                    mv /home/devopsagent/myagent/_work/2/drop-uitests/$(Build.BuildId)-uitests.zip app
+                    mv /home/chaulnh/myagent/_work/2/drop-uitests/$(Build.BuildId)-uitests.zip app
                     cd app
                     unzip -o $(Build.BuildId)-uitests.zip
 
