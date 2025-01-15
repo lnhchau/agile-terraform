@@ -346,9 +346,17 @@ stages:
                     cd app
                     unzip -o $(Build.BuildId)-uitests.zip
 
-                    wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chromedriver-linux64.zip
-                    unzip -o chromedriver-linux64.zip
-                    sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
+                    wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_126.0.6478.55-1_amd64.deb
+                    sudo dpkg -i google-chrome-stable_126.0.6478.55-1_amd64.deb
+                    sudo apt-get -f install
+
+                    sudo apt-get remove --purge google-chrome-stable -y
+                    sudo apt-get autoremove -y
+                    sudo rm /usr/bin/google-chrome  
+
+                    wget https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.55/linux64/chromedriver-linux64.zip
+                    sudo mv chromedriver /usr/local/bin/
+                    chmod +x /usr/local/bin/chromedriver
                     
                     export PATH=$PATH:/home/chaulnh/app
                     echo "Starting Selenium Tests"
