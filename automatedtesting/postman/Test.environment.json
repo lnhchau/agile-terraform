@@ -4,7 +4,7 @@
 	"values": [
 		{
 			"key": "url",
-			"value": "https://project3-appservice.azurewebsites.net/api",
+			"value": "https://myapp-appservice.azurewebsites.net/api",
 			"enabled": true
 		},
 		{
