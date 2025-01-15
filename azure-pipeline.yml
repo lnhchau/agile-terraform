@@ -331,10 +331,17 @@ stages:
                     #! /bin/bash
                     
                     sudo apt-get upgrade -y
+                    sudo apt-get update -y
+                    # sudo apt-get install -y chromium-browser
+                    sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils
+                    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                    sudo dpkg -i google-chrome-stable_current_amd64.deb
+                    sudo apt-get -fy install
                     sudo apt-get install python3-pip -y
                     sudo apt-get install unzip -y
-                    sudo apt-get install -y chromium-browser
+                    pip3 install --upgrade requests
                     pip3 install selenium
+
                     cd ~/
                     DIR=/home/chaulnh/app
                     if [ ! -d "$DIR" ]; then
@@ -344,13 +351,16 @@ stages:
                     cd app
                     unzip -o $(Build.BuildId)-uitests.zip
 
-                    wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.58/linux64/chromedriver-linux64.zip
+                    wget https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.55/linux64/chromedriver-linux64.zip
                     unzip -o chromedriver-linux64.zip
                     sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
                     
+                    google-chrome --product-version
+                    /usr/local/bin/chromedriver -v
+                    
                     export PATH=$PATH:/home/chaulnh/app
                     echo "Starting Selenium Tests"
-                    python3 login.py >> selenium.log
+                    python3 add_remove_from_cart.py >> selenium.log
                     
                     echo "Completed Selenium Tests. Check selenium.log for results."
                     cat selenium.log
