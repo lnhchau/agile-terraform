@@ -259,7 +259,8 @@ stages:
                     includeRootFolder: false
                     archiveType: 'zip'
                     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-jmeter-performance-html-report.zip'
-
+                    replaceExistingArchive: true
+                    
                 - task: ArchiveFiles@2
                   displayName: 'Archive JMeter Stress Test Report'
                   inputs:
@@ -293,7 +294,7 @@ stages:
         displayName: Deploy VM for Selenium Tests
         environment:
           name:  $(environmentName)       # ToDo: Change/provide a name
-          resourceType: VirtualMachine
+          # resourceType: VirtualMachine
           tags: selenium      
         strategy:
           runOnce:
