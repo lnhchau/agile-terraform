@@ -19,7 +19,7 @@ address_prefix_test = "10.5.1.0/24"
 vm_size           = "Standard_B1s"
 admin_username = "chaulnh"
 packer_image_name = "myPackerImage2"
-packer_image = "/subscriptions/a3a536c2-3690-4c5f-8032-998a8dc3234e/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage2"
+packer_image = "/subscriptions/0ee6d06f-69ab-4b3b-9f35-003e1b6eb227/resourceGroups/Azuredevops/providers/Microsoft.Compute/images/myPackerImage2"
 
 # SSH key
 public_key_path = "id_rsa.pub"
