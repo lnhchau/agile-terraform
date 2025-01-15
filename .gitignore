@@ -23,3 +23,7 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.jsonterraform.tfvars
+
+
+# Ensure the postman folder in automatedtesting is included
+!automatedtesting/postman/
