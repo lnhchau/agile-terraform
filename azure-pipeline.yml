@@ -336,7 +336,7 @@ stages:
                     sudo apt-get install -y chromium-browser
                     pip3 install selenium
                     cd ~/
-                    DIR=/home/devopsagent/app
+                    DIR=/home/chaulnh/app
                     if [ ! -d "$DIR" ]; then
                         mkdir app
                     fi
@@ -348,7 +348,7 @@ stages:
                     unzip -o chromedriver-linux64.zip
                     sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
                     
-                    export PATH=$PATH:/home/devopsagent/app
+                    export PATH=$PATH:/home/chaulnh/app
                     echo "Starting Selenium Tests"
                     python3 login.py >> selenium.log
                     
