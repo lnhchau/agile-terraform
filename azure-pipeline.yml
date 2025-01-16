@@ -329,14 +329,19 @@ stages:
                   targetType: 'inline'
                   script: |       
                     #! /bin/bash
-                    
-                    # source myenv/bin/activate
-                    
+
                     sudo apt-get upgrade -y
+                    sudo apt-get update -y
+                    # sudo apt-get install -y chromium-browser
+                    sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils
+                    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+                    sudo dpkg -i google-chrome-stable_current_amd64.deb
+                    sudo apt-get -fy install
                     sudo apt-get install python3-pip -y
                     sudo apt-get install unzip -y
-                    sudo apt-get install -y chromium-browser
+                    pip3 install --upgrade requests
                     pip3 install selenium
+
                     cd ~/
                     DIR=/home/chaulnh/app
                     if [ ! -d "$DIR" ]; then
@@ -346,21 +351,16 @@ stages:
                     cd app
                     unzip -o $(Build.BuildId)-uitests.zip
 
-                    wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_126.0.6478.55-1_amd64.deb
-                    sudo dpkg -i google-chrome-stable_126.0.6478.55-1_amd64.deb
-                    sudo apt-get -f install
-
-                    sudo apt-get remove --purge google-chrome-stable -y
-                    sudo apt-get autoremove -y
-                    sudo rm /usr/bin/google-chrome  
-
                     wget https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.55/linux64/chromedriver-linux64.zip
-                    sudo mv chromedriver /usr/local/bin/
-                    chmod +x /usr/local/bin/chromedriver
+                    unzip -o chromedriver-linux64.zip
+                    sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
+
+                    google-chrome --product-version
+                    /usr/local/bin/chromedriver -v
                     
                     export PATH=$PATH:/home/chaulnh/app
                     echo "Starting Selenium Tests"
-                    python3 login.py >> selenium.log
+                    python3 add_remove_from_cart.py >> selenium.log
                     
                     echo "Completed Selenium Tests. Check selenium.log for results."
                     cat selenium.log
@@ -376,21 +376,11 @@ stages:
                     # Copy the log file, overwrite if it exists
                     sudo cp -f selenium.log /var/log/selenium/selenium.log
                     
-                    # create new directory 
-                    mkdir -p $(System.DefaultWorkingDirectory)/log/selenium
-                    sudo cp -f selenium.log $(System.DefaultWorkingDirectory)/log/selenium
-
-                    # Display the log file directory
-                    echo 'Directory'
-                    pwd
-                    echo 'find selenium.log in'
-                    find . -name selenium.log
-                    
-              - task: PublishPipelineArtifact@1
-                displayName: Publish selenium logs
-                inputs:
-                  targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium.log'
-                  artifactName: 'drop-selenium-logs'
+              # - task: PublishPipelineArtifact@1
+              #   displayName: Publish selenium logs
+              #   inputs:
+              #     targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium.log'
+              #     artifactName: 'drop-selenium-logs'
           
 
   #--------------------------------------------#
