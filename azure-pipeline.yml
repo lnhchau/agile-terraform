@@ -333,14 +333,41 @@ stages:
                     sudo apt-get upgrade -y
                     sudo apt-get update -y
                     # sudo apt-get install -y chromium-browser
-                    sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgdk-pixbuf2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libxss1 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils
-                    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                    sudo dpkg -i google-chrome-stable_current_amd64.deb
+                    
+                    #### test
+                    apt-get update
+                    wget http://dl.google.com/linux/deb/pool/main/g/google-chrome-unstable/google-chrome-unstable_114.0.5735.6-1_amd64.deb
+                    sudo dpkg -i google-chrome-unstable_114.0.5735.6-1_amd64.deb
+                    sudo apt-get install -f -y  
+
+                    sudo ln -s /usr/bin/google-chrome /usr/local/bin/google-chrome-stable
+
                     sudo apt-get -fy install
                     sudo apt-get install python3-pip -y
                     sudo apt-get install unzip -y
                     pip3 install --upgrade requests
-                    pip3 install selenium
+                    pip3 install -U selenium==4.11.2
+
+                    # cd ~/
+
+                    # FILE=/home/chaulnh/app/chromedriver_linux64.zip
+                    # if [ ! -f "$FILE" ]; then
+                    #   LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+                    #   wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+                    # fi
+
+                    # Download Chromedriver matching the installed Chrome version
+                    CHROME_VERSION=$(google-chrome-stable --version | grep -oE '[0-9.]+' | head -1 | cut -d '.' -f 1)
+                    CHROMEDRIVER_ZIP=chromedriver_linux64.zip
+
+                    if [ ! -f "$CHROMEDRIVER_ZIP" ]; then
+                      wget http://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip
+                    fi
+
+                    #### test
+
+                    unzip -o chromedriver_linux64.zip
+                    sudo ln -sf $PWD/chromedriver /usr/local/bin/chromedriver
 
                     cd ~/
                     DIR=/home/chaulnh/app
@@ -350,10 +377,6 @@ stages:
                     mv /home/chaulnh/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
                     cd app
                     unzip -o $(Build.BuildId)-uitests.zip
-
-                    wget https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.55/linux64/chromedriver-linux64.zip
-                    unzip -o chromedriver-linux64.zip
-                    sudo cp chromedriver-linux64/chromedriver /usr/local/bin/
 
                     google-chrome --product-version
                     /usr/local/bin/chromedriver -v
